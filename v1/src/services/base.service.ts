@@ -29,4 +29,4 @@ class BaseService {
   }
 }
 
-module.exports = BaseService;
+export default BaseService;
