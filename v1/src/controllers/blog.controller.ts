@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
 import blogService from "../services/blog.service";
+import { Prisma } from "@prisma/client";
 
 class BlogsController {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -14,6 +15,13 @@ class BlogsController {
     } catch (err) {
       next(err);
     }
+  }
+  async add(
+    req: Request<Prisma.BlogCreateInput>,
+    res: Response,
+    next: NextFunction
+  ) {
+    return await blogService.create(req.body);
   }
 }
 

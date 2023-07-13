@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { PrismaClient, Blog } from "@prisma/client";
+import { PrismaClient, Blog, Prisma } from "@prisma/client";
 
 class BlogService {
   private prisma: PrismaClient;
@@ -8,6 +8,11 @@ class BlogService {
   }
   async list(): Promise<Blog[]> {
     return await this.prisma.blog.findMany();
+  }
+  async create(blog: Prisma.BlogCreateInput): Promise<Blog> {
+    return await this.prisma.blog.create({
+      data: blog,
+    });
   }
 }
 
