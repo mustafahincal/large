@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
-import blogService from "../services/blog.service";
+import blogService from "../services/BlogService";
 import { Prisma } from "@prisma/client";
 
 class BlogsController {

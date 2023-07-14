@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import userService from "../services/user.service";
+import userService from "../services/UserService";
 import { Prisma } from "@prisma/client";
 import httpStatus from "http-status";
 
