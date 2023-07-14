@@ -1,24 +1,30 @@
 import Joi from "joi";
 
-/* const customErrorMessages = {
-      'string.base': 'Lütfen bir metin değeri girin.',
-      'string.min': '{#label}, en az {#limit} karakter uzunluğunda olmalıdır.',
-      'string.max': '{#label}, en fazla {#limit} karakter uzunluğunda olmalıdır.',
-      'string.email': 'Lütfen geçerli bir e-posta adresi girin.',
-      'array.base': 'Lütfen geçerli bir dizi değeri girin.',
-      'any.required': '{#label}, zorunlu bir alandır.',
-      'string.empty': '{#label} alanı boş olamaz.',
-    }; */
+const customErrorMessages = {
+  "string.base": "Please enter a text value.",
+  "string.min": "{#label} must be at least {#limit} characters long.",
+  "string.max": "{#label} must be at most {#limit} characters long.",
+  "string.email": "Please enter a valid email address.",
+  "array.base": "Please enter a valid array value.",
+  "any.required": "{#label} is required.",
+  "string.empty": "{#label} can not be empty.",
+};
 
 export default {
   login: Joi.object().keys({
-    email: Joi.string().email({ tlds: false }).required(),
-    password: Joi.string().required(),
+    email: Joi.string()
+      .email({ tlds: false })
+      .required()
+      .messages(customErrorMessages),
+    password: Joi.string().required().messages(customErrorMessages),
   }),
   create: Joi.object().keys({
-    first_name: Joi.string().required(),
-    last_name: Joi.string().required(),
-    email: Joi.string().email({ tlds: false }).required(),
-    password: Joi.string().required(),
+    first_name: Joi.string().required().messages(customErrorMessages),
+    last_name: Joi.string().required().messages(customErrorMessages),
+    email: Joi.string()
+      .email({ tlds: false })
+      .required()
+      .messages(customErrorMessages),
+    password: Joi.string().min(5).required().messages(customErrorMessages),
   }),
 };

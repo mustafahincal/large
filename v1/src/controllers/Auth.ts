@@ -22,7 +22,6 @@ class AuthController {
       res.status(httpStatus.OK).send({
         message: "Login Successfull",
         data: {
-          id: user.id.toString(),
           access_token: generateAccessToken({
             id: user.id.toString(),
             email: user.email,
