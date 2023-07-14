@@ -2,7 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const userData: Prisma.UserCreateInput[] = [
+/* const userData: Prisma.UserCreateInput[] = [
   {
     name: "Alice",
     email: "alice@prisma.io",
@@ -15,9 +15,9 @@ const userData: Prisma.UserCreateInput[] = [
     name: "Mahmoud",
     email: "mahmoud@prisma.io",
   },
-];
+]; */
 
-async function main() {
+/* async function main() {
   console.log(`Start seeding ...`);
   for (const u of userData) {
     const user = await prisma.user.create({
@@ -37,3 +37,4 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+ */

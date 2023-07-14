@@ -1,7 +1,7 @@
 import express from "express";
-import userRouter from "./UserRoutes";
-import authRouter from "./AuthRoutes";
-import blogRouter from "./BlogRoutes";
+import userRouter from "./user";
+import authRouter from "./auth";
+import blogRouter from "./blog";
 
 class Router {
   private router: express.Router;

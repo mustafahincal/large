@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import http from "http";
 import dotenv from "dotenv";
-import ErrorHandler from "./middlewares/error";
+import ErrorHandler from "./middlewares/error.middleware";
 import Router from "./routes";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });

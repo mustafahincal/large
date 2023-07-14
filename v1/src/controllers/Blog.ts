@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
-import blogService from "../services/BlogService";
 import { Prisma } from "@prisma/client";
+import blogService from "../services/Blog";
 
 class BlogsController {
   async index(req: Request, res: Response, next: NextFunction) {

@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { UserLoginRequest } from "../interfaces/auth";
-import UserService from "../services/UserService";
+import UserService from "../services/User";
 import { hashPassword } from "../utils/helpers";
 import httpStatus from "http-status";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
