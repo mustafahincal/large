@@ -1,14 +1,13 @@
 import express from "express";
 import cors from "cors";
 import http from "http";
-import dotenv from "dotenv";
 import ErrorHandler from "./middlewares/error.middleware";
 import Router from "./routes";
-
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+import config from "./config";
 
 function startServer() {
   const app = express();
+  config(app);
   app.use(express.static("public"));
   app.use(cors());
   app.use(express.json());

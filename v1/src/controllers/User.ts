@@ -3,6 +3,7 @@ import userService from "../services/User";
 import { Prisma, User } from "@prisma/client";
 import httpStatus from "http-status";
 import Messages from "../constants/Messages";
+import { CustomError } from "../utils/customError";
 
 class UsersController {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -20,7 +21,7 @@ class UsersController {
   async add(req: Request, res: Response, next: NextFunction) {
     try {
       const userCheck = await userService.getByEmail(req.body.email);
-      if (userCheck) throw new Error(Messages.UserAlreadyExists);
+      if (userCheck) throw new CustomError(409, Messages.UserAlreadyExists);
       const created = await userService.create(req.body);
       res.status(httpStatus.OK).send({
         message: Messages.UserCreatedSuccesfull,

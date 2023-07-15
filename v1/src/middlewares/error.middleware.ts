@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { CustomError } from "../utils/customError";
 
 export interface Error {
   status: number;
@@ -6,7 +7,12 @@ export interface Error {
 }
 
 class ErrorHandler {
-  handleError(err: Error, req: Request, res: Response, next: NextFunction) {
+  handleError(
+    err: CustomError,
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     const errStatus = err.status || 500;
     const errMsg = err.message || "Something went wrong";
     res.status(errStatus).send({
