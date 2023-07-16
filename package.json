@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --files v1/src/app.ts",
-    "prod": "NODE_ENV=production nodemon --files v1/src/app.ts",
+    "dev": "nodemon --files v1/src/app.ts",
+    "prod": "nodemon --files v1/src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

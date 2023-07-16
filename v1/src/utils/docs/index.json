@@ -126,20 +126,20 @@
       }
     }
   },
-  "/users/{username}": {
+  "/users/{id}": {
     "get": {
       "tags": ["User"],
-      "summary": "get information about a spesific user by username",
-      "description": "get information about a spesific user by username",
+      "summary": "get information about a spesific user by id",
+      "description": "get information about a spesific user by id",
       "parameters": [
         {
           "in": "path",
-          "name": "username",
+          "name": "id",
           "required": true,
           "schema": {
             "type": "String"
           },
-          "description": "username of the user to get information"
+          "description": "id of the user to get information"
         }
       ],
       "responses": {
@@ -151,22 +151,26 @@
                 "properties": {
                   "message": {
                     "type": "String",
-                    "example": "user created"
+                    "example": "user listed"
                   },
                   "data": {
                     "type": "object",
                     "properties": {
-                      "username": {
+                      "first_name": {
                         "type": "String",
-                        "example": "ahmetyilmaz"
+                        "example": "test1FirstName"
                       },
-                      "numberFollower": {
-                        "type": "Number",
-                        "example": 100
+                      "last_name": {
+                        "type": "String",
+                        "example": "test1LastName"
                       },
-                      "numberFollowing": {
-                        "type": "Number",
-                        "example": 100
+                      "email": {
+                        "type": "String",
+                        "example": "test1@gmail.com"
+                      },
+                      "password": {
+                        "type": "String",
+                        "example": "12345a"
                       }
                     }
                   }
@@ -193,7 +197,7 @@
       }
     }
   },
-  "/login": {
+  "/auth": {
     "post": {
       "tags": ["Authentication"],
       "summary": "Logins to the system",
@@ -207,11 +211,11 @@
               "properties": {
                 "email": {
                   "type": "String",
-                  "example": "ahmetyilmaz@yilmaz.com"
+                  "example": "mustafahncal@gmail.com"
                 },
                 "password": {
                   "type": "String",
-                  "example": "123"
+                  "example": "12345a"
                 }
               }
             }
@@ -271,11 +275,11 @@
       }
     }
   },
-  "/posts": {
-    "post": {
-      "tags": ["Post"],
-      "summary": "Creates a new post for the user",
-      "description": "Creates a new post for the user",
+  "/blogs": {
+    "blog": {
+      "tags": ["Blog"],
+      "summary": "Creates a new blog for the user",
+      "description": "Creates a new blog for the user",
       "parameters": [
         {
           "in": "header",
@@ -293,9 +297,13 @@
             "schema": {
               "type": "object",
               "properties": {
+                "title": {
+                  "type": "String",
+                  "example": "the blog title"
+                },
                 "content": {
                   "type": "String",
-                  "example": "the post content"
+                  "example": "the blog content"
                 }
               }
             }
@@ -828,66 +836,6 @@
                   "message": {
                     "type": "String",
                     "example": "post to unlike not found"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "/retweets": {
-    "post": {
-      "tags": ["Post"],
-      "summary": "Retweet a post",
-      "description": "Retweet a post",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "postId": {
-                  "type": "String",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "String",
-                    "example": "the post created"
-                  },
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "retweetedPostId": {
-                        "type": "String",
-                        "minLength": 24,
-                        "example": "123456789abcdefghij01234"
-                      }
-                    }
                   }
                 }
               }
