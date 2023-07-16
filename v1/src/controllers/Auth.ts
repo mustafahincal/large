@@ -7,11 +7,7 @@ import httpStatus from "http-status";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt";
 
 class AuthController {
-  async login(
-    req: Request<UserLoginRequest>,
-    res: Response,
-    next: NextFunction
-  ) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
       const user: User | null = await UserService.getByEmail(email);

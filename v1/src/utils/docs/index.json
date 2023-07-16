@@ -211,7 +211,7 @@
               "properties": {
                 "email": {
                   "type": "String",
-                  "example": "mustafahncal@gmail.com"
+                  "example": "test1@gmail.com"
                 },
                 "password": {
                   "type": "String",
