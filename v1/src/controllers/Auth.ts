@@ -20,10 +20,14 @@ class AuthController {
         data: {
           access_token: generateAccessToken({
             id: user.id.toString(),
+            first_name: user.first_name,
+            last_name: user.last_name,
             email: user.email,
           }),
           refresh_token: generateRefreshToken({
             id: user.id.toString(),
+            first_name: user.first_name,
+            last_name: user.last_name,
             email: user.email,
           }),
         },
