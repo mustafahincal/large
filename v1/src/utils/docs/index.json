@@ -5,30 +5,38 @@
       "summary": "Lists users",
       "description": "Lists users",
       "responses": {
-        "201": {
+        "200": {
+          "description": "Successful response",
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "users listed"
+                  },
                   "data": {
-                    "type": "object",
-                    "properties": {
-                      "first_name": {
-                        "type": "String",
-                        "example": "test1FirstName"
-                      },
-                      "last_name": {
-                        "type": "String",
-                        "example": "test1LastName"
-                      },
-                      "email": {
-                        "type": "String",
-                        "example": "test1@gmail.com"
-                      },
-                      "password": {
-                        "type": "String",
-                        "example": "12345a"
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "first_name": {
+                          "type": "string",
+                          "example": "test1FirstName"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "test1LastName"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "test1@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "12345a"
+                        }
                       }
                     }
                   }
@@ -51,19 +59,19 @@
               "type": "object",
               "properties": {
                 "first_name": {
-                  "type": "String",
+                  "type": "string",
                   "example": "test1FirstName"
                 },
                 "last_name": {
-                  "type": "String",
+                  "type": "string",
                   "example": "test1LastName"
                 },
                 "email": {
-                  "type": "String",
+                  "type": "string",
                   "example": "test1@gmail.com"
                 },
                 "password": {
-                  "type": "String",
+                  "type": "string",
                   "example": "12345a"
                 }
               }
@@ -73,32 +81,33 @@
       },
       "responses": {
         "201": {
+          "description": "Successful response",
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
-                    "example": "user created"
+                    "type": "string",
+                    "example": "users created"
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "first_name": {
-                        "type": "String",
+                        "type": "string",
                         "example": "test1FirstName"
                       },
                       "last_name": {
-                        "type": "String",
+                        "type": "string",
                         "example": "test1LastName"
                       },
                       "email": {
-                        "type": "String",
+                        "type": "string",
                         "example": "test1@gmail.com"
                       },
                       "password": {
-                        "type": "String",
+                        "type": "string",
                         "example": "12345a"
                       }
                     }
@@ -109,14 +118,15 @@
           }
         },
         "409": {
+          "description": "Conflict response",
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
-                    "example": "user already exist"
+                    "type": "string",
+                    "example": "user already exists"
                   }
                 }
               }
@@ -137,7 +147,7 @@
           "name": "id",
           "required": true,
           "schema": {
-            "type": "String"
+            "type": "string"
           },
           "description": "id of the user to get information"
         }
@@ -150,26 +160,26 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "user listed"
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "first_name": {
-                        "type": "String",
+                        "type": "string",
                         "example": "test1FirstName"
                       },
                       "last_name": {
-                        "type": "String",
+                        "type": "string",
                         "example": "test1LastName"
                       },
                       "email": {
-                        "type": "String",
+                        "type": "string",
                         "example": "test1@gmail.com"
                       },
                       "password": {
-                        "type": "String",
+                        "type": "string",
                         "example": "12345a"
                       }
                     }
@@ -186,7 +196,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "user not exist"
                   }
                 }
@@ -210,11 +220,11 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "type": "String",
+                  "type": "string",
                   "example": "test1@gmail.com"
                 },
                 "password": {
-                  "type": "String",
+                  "type": "string",
                   "example": "12345a"
                 }
               }
@@ -230,23 +240,23 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "login successful"
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "String",
+                        "type": "string",
                         "example": "123456789abcdefghij01234"
                       },
                       "accessToken": {
-                        "type": "String",
+                        "type": "string",
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                         "minLength": 256
                       },
                       "refreshToken": {
-                        "type": "String",
+                        "type": "string",
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                         "minLength": 256
                       }
@@ -264,7 +274,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "email or password wrong"
                   }
                 }
@@ -276,7 +286,77 @@
     }
   },
   "/blogs": {
-    "blog": {
+    "get": {
+      "tags": ["Blog"],
+      "summary": "Lists blogs",
+      "description": "Lists blogs",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "int",
+                    "example": 1
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "the blog title"
+                  },
+                  "sections": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "int",
+                          "example": 1
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "the blog sub-title"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "the blog sub-content"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "/public/image-1.jpg"
+                        }
+                      }
+                    }
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": "/public/image.jpg"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "authorId": {
+                    "type": "int",
+                    "example": 1
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2023-07-17T11:50:18.186Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2023-07-17T11:50:18.186Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
       "tags": ["Blog"],
       "summary": "Creates a new blog for the user",
       "description": "Creates a new blog for the user",
@@ -287,7 +367,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         }
       ],
       "requestBody": {
@@ -298,12 +378,39 @@
               "type": "object",
               "properties": {
                 "title": {
-                  "type": "String",
+                  "type": "string",
                   "example": "the blog title"
                 },
-                "content": {
-                  "type": "String",
-                  "example": "the blog content"
+                "sections": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "the blog sub-title"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "the blog sub-content"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "/public/image-1.jpg"
+                      }
+                    }
+                  }
+                },
+                "image": {
+                  "type": "string",
+                  "example": "/public/image.jpg"
+                },
+                "published": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "authorId": {
+                  "type": "int",
+                  "example": 1
                 }
               }
             }
@@ -318,14 +425,14 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
-                    "example": "the post created"
+                    "type": "string",
+                    "example": "the blog created"
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "postId": {
-                        "type": "String",
+                        "type": "string",
                         "minLength": 24,
                         "example": "123456789abcdefghij01234"
                       }
@@ -339,7 +446,7 @@
       }
     },
     "delete": {
-      "tags": ["Post"],
+      "tags": ["Blog"],
       "summary": "Deletes a post",
       "description": "Deletes a post as soft delete",
       "parameters": [
@@ -360,7 +467,7 @@
               "type": "object",
               "properties": {
                 "postId": {
-                  "type": "String",
+                  "type": "string",
                   "example": "123456789abcdefghij01234"
                 }
               }
@@ -376,7 +483,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "the post deleted successfully"
                   }
                 }
@@ -391,7 +498,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "cannot delete a post you dont own"
                   }
                 }
@@ -406,7 +513,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "the post not found"
                   }
                 }
@@ -443,7 +550,7 @@
                     "type": "object",
                     "properties": {
                       "username": {
-                        "type": "String",
+                        "type": "string",
                         "example": "ahmetyilmaz"
                       },
                       "following": {
@@ -461,11 +568,11 @@
                                 "type": "object",
                                 "properties": {
                                   "postId": {
-                                    "type": "String",
+                                    "type": "string",
                                     "example": "123456789abcdefghij01234"
                                   },
                                   "content": {
-                                    "type": "String",
+                                    "type": "string",
                                     "example": "the post content"
                                   }
                                 }
@@ -488,7 +595,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "user not found"
                   }
                 }
@@ -522,7 +629,7 @@
               "type": "object",
               "properties": {
                 "userId": {
-                  "type": "String",
+                  "type": "string",
                   "example": "123456789abcdefghij01234"
                 }
               }
@@ -538,7 +645,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "followed successfully"
                   }
                 }
@@ -553,7 +660,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "followed already"
                   }
                 }
@@ -568,7 +675,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "user to follow not found"
                   }
                 }
@@ -583,7 +690,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "you may not follow yourself"
                   }
                 }
@@ -615,7 +722,7 @@
               "type": "object",
               "properties": {
                 "userId": {
-                  "type": "String",
+                  "type": "string",
                   "example": "123456789abcdefghij01234"
                 }
               }
@@ -631,7 +738,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "unfollowed successfully"
                   }
                 }
@@ -646,7 +753,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "not followed already"
                   }
                 }
@@ -661,7 +768,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "user to unfollow not found"
                   }
                 }
@@ -676,7 +783,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "you may not unfollow yourself"
                   }
                 }
@@ -689,7 +796,7 @@
   },
   "/likes": {
     "post": {
-      "tags": ["Post"],
+      "tags": ["Blog"],
       "summary": "Likes a post",
       "description": "Likes a post",
       "parameters": [
@@ -710,7 +817,7 @@
               "type": "object",
               "properties": {
                 "postId": {
-                  "type": "String",
+                  "type": "string",
                   "example": "123456789abcdefghij01234"
                 }
               }
@@ -726,7 +833,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "followed successfully"
                   }
                 }
@@ -741,7 +848,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "liked already"
                   }
                 }
@@ -756,7 +863,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "post to like not found"
                   }
                 }
@@ -788,7 +895,7 @@
               "type": "object",
               "properties": {
                 "userId": {
-                  "type": "String",
+                  "type": "string",
                   "example": "123456789abcdefghij01234"
                 }
               }
@@ -804,7 +911,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "unliked successfully"
                   }
                 }
@@ -819,7 +926,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "not liked already"
                   }
                 }
@@ -834,7 +941,7 @@
                 "type": "object",
                 "properties": {
                   "message": {
-                    "type": "String",
+                    "type": "string",
                     "example": "post to unlike not found"
                   }
                 }

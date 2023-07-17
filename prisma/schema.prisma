@@ -11,14 +11,24 @@ datasource db {
 }
 
 model Blog {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  title       String      @db.VarChar(255) 
+  image       String 
+  published   Boolean     @default(false)
+  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    Int
+  sections    Section[] 
+}
+
+model Section {
+  id        Int          @id @default(autoincrement())
+  title     String?      @db.VarChar(255)
   content   String
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId  Int
+  image     String?
+  blog      Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade) 
+  blogId    Int
 }
 
 model User {

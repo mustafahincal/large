@@ -9,7 +9,9 @@ class BlogService {
   }
 
   async list(): Promise<Blog[]> {
-    return await this.prisma.blog.findMany();
+    return await this.prisma.blog.findMany({
+      include: { sections: true },
+    });
   }
 
   async create(blog: Prisma.BlogCreateInput): Promise<Blog> {

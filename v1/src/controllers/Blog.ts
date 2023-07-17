@@ -1,7 +1,8 @@
 import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
-import { Prisma } from "@prisma/client";
+import { Prisma, Section } from "@prisma/client";
 import blogService from "../services/Blog";
+import sectionService from "../services/Section";
 
 class BlogsController {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -21,7 +22,24 @@ class BlogsController {
     res: Response,
     next: NextFunction
   ) {
-    return await blogService.create(req.body);
+    try {
+      const { sections, ...rest } = req.body;
+      rest.updatedAt = new Date();
+      const createdBlog = await blogService.create(rest);
+      const sectionsToAdd = sections.map((section: Section) => ({
+        ...section,
+        blogId: createdBlog.id,
+      }));
+      await sectionService.createMany(sectionsToAdd);
+      res.send({
+        message: "blog added succesfully",
+        data: {
+          blogId: createdBlog.id,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
   }
 }
 

@@ -1,6 +1,6 @@
-import { User } from "@prisma/client";
+import { UserLoginRequest } from "./../interfaces/auth";
+import { Prisma, User } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
-import { UserLoginRequest } from "../interfaces/auth";
 import UserService from "../services/User";
 import { hashPassword } from "../utils/helpers";
 import httpStatus from "http-status";
