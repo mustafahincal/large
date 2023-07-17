@@ -25,7 +25,7 @@ model Blog {
 model Section {
   id        Int          @id @default(autoincrement())
   title     String?      @db.VarChar(255)
-  content   String
+  content   String?
   image     String?
   blog      Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade) 
   blogId    Int
