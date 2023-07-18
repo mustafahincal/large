@@ -341,6 +341,13 @@
                     "type": "int",
                     "example": 1
                   },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "tag-1"
+                    }
+                  },
                   "createdAt": {
                     "type": "string",
                     "example": "2023-07-17T11:50:18.186Z"
@@ -411,6 +418,13 @@
                 "authorId": {
                   "type": "int",
                   "example": 1
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "tag-1"
+                  }
                 }
               }
             }

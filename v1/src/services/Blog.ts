@@ -15,6 +15,11 @@ class BlogService {
   }
 
   async create(blog: Prisma.BlogCreateInput): Promise<Blog> {
+    blog.updatedAt = new Date();
+    blog.searchable_text = blog.title;
+    if (blog.tags && Array.isArray(blog.tags)) {
+      blog?.tags?.forEach((tag) => (blog.searchable_text += `, ${tag}`));
+    }
     return await this.prisma.blog.create({
       data: blog,
     });

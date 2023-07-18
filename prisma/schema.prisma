@@ -19,7 +19,9 @@ model Blog {
   published   Boolean     @default(false)
   author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    Int
-  sections    Section[] 
+  sections    Section[]
+  searchable_text String
+  tags String[]
 }
 
 model Section {

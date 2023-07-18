@@ -24,13 +24,15 @@ class BlogsController {
   ) {
     try {
       const { sections, ...rest } = req.body;
-      rest.updatedAt = new Date();
       const createdBlog = await blogService.create(rest);
+
       const sectionsToAdd = sections.map((section: Section) => ({
         ...section,
         blogId: createdBlog.id,
       }));
+
       await sectionService.createMany(sectionsToAdd);
+
       res.send({
         message: "blog added succesfully",
         data: {
