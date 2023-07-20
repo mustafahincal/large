@@ -538,6 +538,47 @@
       }
     }
   },
+  "/upload/image": {
+    "post": {
+      "tags": ["Upload"],
+      "summary": "Upload an image",
+      "description": "Upload an image",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Image uploaded successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Image uploaded successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/feed": {
     "get": {
       "tags": ["User"],

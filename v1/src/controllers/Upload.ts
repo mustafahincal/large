@@ -20,7 +20,6 @@ class UploadController {
         url: url,
       });
     } catch (err) {
-      console.log("image-doc failed", err);
       return next(err);
     }
   };
