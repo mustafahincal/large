@@ -27,20 +27,20 @@ class BlogService {
 
   async update(id: string, blog: Prisma.BlogUpdateInput): Promise<Blog> {
     return await this.prisma.blog.update({
-      where: { id: Number(id) },
+      where: { id: id },
       data: blog,
     });
   }
 
   async delete(id: string): Promise<void> {
     await this.prisma.blog.delete({
-      where: { id: Number(id) },
+      where: { id: id },
     });
   }
 
   async get(id: string): Promise<Blog | null> {
     return await this.prisma.blog.findUnique({
-      where: { id: Number(id) },
+      where: { id: id },
     });
   }
 }

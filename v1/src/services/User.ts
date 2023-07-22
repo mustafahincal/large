@@ -21,20 +21,20 @@ class UserService {
 
   async update(id: string, user: Prisma.UserUpdateInput): Promise<User> {
     return await this.prisma.user.update({
-      where: { id: Number(id) },
+      where: { id: id },
       data: user,
     });
   }
 
   async delete(id: string): Promise<void> {
     await this.prisma.user.delete({
-      where: { id: Number(id) },
+      where: { id: id },
     });
   }
 
   async get(id: string): Promise<User | null> {
     return await this.prisma.user.findUnique({
-      where: { id: Number(id) },
+      where: { id: id },
     });
   }
 

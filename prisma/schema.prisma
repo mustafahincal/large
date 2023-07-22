@@ -11,33 +11,77 @@ datasource db {
 }
 
 model Blog {
-  id          Int         @id @default(autoincrement())
+  id            String    @id @default(uuid()) @db.VarChar(36)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   title       String      @db.VarChar(255) 
   image       String 
   published   Boolean     @default(false)
   author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId    Int
+  authorId    String
   sections    Section[]
   searchable_text String
   tags String[]
+  likes    Like[]
+  comments Comment[]
+}
+
+enum Type{
+  TEXT
+  IMAGE
+  TITLE_TEXT
+  CODE
 }
 
 model Section {
-  id        Int          @id @default(autoincrement())
+  id            String    @id @default(uuid()) @db.VarChar(36)
   title     String?      @db.VarChar(255)
   content   String?
   image     String?
+  type      Type         @default(TEXT)
   blog      Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade) 
-  blogId    Int
+  blogId    String
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
+  id            String    @id @default(uuid()) @db.VarChar(36)
+  email         String    @unique
   first_name    String
   last_name     String
   password      String 
   blogs         Blog[]
+  likes         Like[]
+  comments      Comment[]
+  followedBy    Follow[]  @relation("following")
+  following     Follow[]  @relation("follower")
 }
+
+
+model Follow {
+  follower        User @relation("follower", fields: [followerId], references: [id])
+  followerId      String
+  following       User @relation("following", fields: [followingId], references: [id])
+  followingId     String
+  @@id([followerId, followingId])
+}
+
+model Like {
+  id            String    @id @default(uuid()) @db.VarChar(36)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  blog      Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId    String
+}
+
+model Comment {
+  id            String      @id @default(uuid()) @db.VarChar(36)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  blog          Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId        String
+  content       String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+

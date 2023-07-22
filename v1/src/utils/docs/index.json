@@ -298,17 +298,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "int",
-                    "example": 1
-                  },
-                  "title": {
+                  "message": {
                     "type": "string",
-                    "example": "the blog title"
+                    "example": "comments listed"
                   },
-                  "sections": {
+                  "data": {
                     "type": "array",
                     "items": {
+                      "type": "object",
                       "properties": {
                         "id": {
                           "type": "int",
@@ -316,45 +313,60 @@
                         },
                         "title": {
                           "type": "string",
-                          "example": "the blog sub-title"
+                          "example": "the blog title"
                         },
-                        "content": {
-                          "type": "string",
-                          "example": "the blog sub-content"
+                        "sections": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "int",
+                                "example": 1
+                              },
+                              "title": {
+                                "type": "string",
+                                "example": "the blog sub-title"
+                              },
+                              "content": {
+                                "type": "string",
+                                "example": "the blog sub-content"
+                              },
+                              "image": {
+                                "type": "string",
+                                "example": "/public/image-1.jpg"
+                              }
+                            }
+                          }
                         },
                         "image": {
                           "type": "string",
-                          "example": "/public/image-1.jpg"
+                          "example": "/public/image.jpg"
+                        },
+                        "published": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "authorId": {
+                          "type": "int",
+                          "example": 1
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "tag-1"
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-07-17T11:50:18.186Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-07-17T11:50:18.186Z"
                         }
                       }
                     }
-                  },
-                  "image": {
-                    "type": "string",
-                    "example": "/public/image.jpg"
-                  },
-                  "published": {
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "authorId": {
-                    "type": "int",
-                    "example": 1
-                  },
-                  "tags": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "example": "tag-1"
-                    }
-                  },
-                  "createdAt": {
-                    "type": "string",
-                    "example": "2023-07-17T11:50:18.186Z"
-                  },
-                  "updatedAt": {
-                    "type": "string",
-                    "example": "2023-07-17T11:50:18.186Z"
                   }
                 }
               }
@@ -403,6 +415,10 @@
                       "image": {
                         "type": "string",
                         "example": "/public/image-1.jpg"
+                      },
+                      "type": {
+                        "type": "enum",
+                        "example": "TEXT"
                       }
                     }
                   }
@@ -579,11 +595,11 @@
       }
     }
   },
-  "/feed": {
-    "get": {
-      "tags": ["User"],
-      "summary": "Gets your all posts of your followers",
-      "description": "Gets your all posts of your followers",
+  "/likes": {
+    "post": {
+      "tags": ["Blog"],
+      "summary": "Likes a blog",
+      "description": "Likes a blog",
       "parameters": [
         {
           "in": "header",
@@ -594,6 +610,22 @@
           "required": true
         }
       ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "blogId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
       "responses": {
         "200": {
           "content": {
@@ -601,42 +633,24 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "username": {
-                        "type": "string",
-                        "example": "ahmetyilmaz"
-                      },
-                      "following": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "username": {
-                              "type": "string",
-                              "example": "mehmetyilmaz"
-                            },
-                            "posts": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "postId": {
-                                    "type": "string",
-                                    "example": "123456789abcdefghij01234"
-                                  },
-                                  "content": {
-                                    "type": "string",
-                                    "example": "the post content"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
+                  "message": {
+                    "type": "string",
+                    "example": "followed successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "liked already"
                   }
                 }
               }
@@ -651,7 +665,276 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "user not found"
+                    "example": "blog to like not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Blog"],
+      "summary": "UnLikes a blog",
+      "description": "UnLikes a blog",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "blogId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "unliked successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "blog liked already"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "blog to unlike not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/comments": {
+    "get": {
+      "tags": ["Blog"],
+      "summary": "Lists comments",
+      "description": "Lists comments",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "comments listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "123456789abcdefghij01234"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "123456789abcdefghij01234"
+                        },
+                        "blogId": {
+                          "type": "string",
+                          "example": "123456789abcdefghij01234"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "the comment content"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "example": "2023-07-17T11:50:18.186Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "example": "2023-07-17T11:50:18.186Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post": {
+      "tags": ["Blog"],
+      "summary": "Comments a blog",
+      "description": "Comments a blog",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "blogId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "the comment content"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "commented successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "comment not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Blog"],
+      "summary": "Deletes a comment",
+      "description": "Deletes a comment",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "commentId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "comment deleted successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "comment not found"
                   }
                 }
               }
@@ -849,89 +1132,11 @@
       }
     }
   },
-  "/likes": {
-    "post": {
-      "tags": ["Blog"],
-      "summary": "Likes a post",
-      "description": "Likes a post",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "postId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "followed successfully"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "409": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "liked already"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "post to like not found"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "delete": {
+  "/feed": {
+    "get": {
       "tags": ["User"],
-      "summary": "Unfollows a user",
-      "description": "Unfollows a user",
+      "summary": "Gets your all posts of your followers",
+      "description": "Gets your all posts of your followers",
       "parameters": [
         {
           "in": "header",
@@ -942,22 +1147,6 @@
           "required": true
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -965,24 +1154,42 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "unliked successfully"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "409": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "not liked already"
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "example": "ahmetyilmaz"
+                      },
+                      "following": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "username": {
+                              "type": "string",
+                              "example": "mehmetyilmaz"
+                            },
+                            "posts": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "postId": {
+                                    "type": "string",
+                                    "example": "123456789abcdefghij01234"
+                                  },
+                                  "content": {
+                                    "type": "string",
+                                    "example": "the post content"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -997,7 +1204,7 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "post to unlike not found"
+                    "example": "user not found"
                   }
                 }
               }
