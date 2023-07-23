@@ -5,10 +5,6 @@ import Messages from "../constants/Messages";
 import { CustomError } from "../utils/customError";
 import { JwtUserPayload } from "interfaces/auth";
 
-interface RequestJWT extends Request {
-  user: JwtUserPayload;
-}
-
 class FollowsControler {
   async index(req: Request, res: Response, next: NextFunction) {
     try {
@@ -24,10 +20,10 @@ class FollowsControler {
   }
 
   async getFollowings(req: Request, res: Response, next: NextFunction) {
-    const { userId } = req.params;
+    const { followerId } = req.params;
     try {
       const follows = await followService.list({
-        followerId: userId,
+        followerId,
       });
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
@@ -40,10 +36,10 @@ class FollowsControler {
   }
 
   async getFollowers(req: Request, res: Response, next: NextFunction) {
-    const { userId } = req.params;
+    const { followingId } = req.params;
     try {
       const follows = await followService.list({
-        followingId: userId,
+        followingId,
       });
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
@@ -55,12 +51,12 @@ class FollowsControler {
     }
   }
 
-  async follow(req: any, res: Response, next: NextFunction) {
+  async follow(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
+      const { followerId, followingId } = req.params;
       const follow = await followService.create({
-        follower: { connect: { id: req.user.id } },
-        following: { connect: { id: userId } },
+        follower: { connect: { id: followerId } },
+        following: { connect: { id: followingId } },
       });
       res.status(httpStatus.OK).send({
         message: Messages.FollowSuccess,

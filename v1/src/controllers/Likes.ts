@@ -16,13 +16,13 @@ class LikesController {
       next(err);
     }
   }
-  async like(
-    req: Request<Prisma.LikeCreateInput>,
-    res: Response,
-    next: NextFunction
-  ) {
+  async like(req: Request, res: Response, next: NextFunction) {
     try {
-      const createdLike = await likeService.create(req.body);
+      const { blogId, userId } = req.params;
+      const createdLike = await likeService.create({
+        user: { connect: { id: userId } },
+        blog: { connect: { id: blogId } },
+      });
       res.send({
         message: "blog likedß succesfully",
         data: {
@@ -34,13 +34,9 @@ class LikesController {
     }
   }
 
-  async unlike(
-    req: Request<Prisma.LikeCreateInput>,
-    res: Response,
-    next: NextFunction
-  ) {
+  async unlike(req: Request, res: Response, next: NextFunction) {
     try {
-      const { blogId, userId } = req.body;
+      const { blogId, userId } = req.params;
       const like = await likeService.get({ blogId, userId });
       if (!like) {
         res.send({
