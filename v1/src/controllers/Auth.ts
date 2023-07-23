@@ -10,7 +10,7 @@ class AuthController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
-      const user: User | null = await UserService.getByEmail(email);
+      const user: User | null = await UserService.get({ email });
       if (!user) throw new Error("User not found");
       if (!(user.password === hashPassword(password)))
         throw new Error("Password is wrong");

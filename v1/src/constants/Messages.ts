@@ -6,6 +6,7 @@ export default class Messages {
   static LoginFailureWrongPassword = "Login failed. Wrong password.";
   static UserNotFound = "User not found.";
   static UserAlreadyExists = "User already exists.";
+  static UserDeletedSuccesfull = "User deleted successfully.";
 
   // Blog işlemleri
   static BlogListed = "Blog posts are listed.";

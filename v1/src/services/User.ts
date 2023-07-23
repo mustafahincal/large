@@ -11,6 +11,10 @@ class UserService {
     return await this.prisma.user.findMany();
   }
 
+  async get(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
+    return await this.prisma.user.findUnique({ where: where });
+  }
+
   async create(user: Prisma.UserCreateInput): Promise<User> {
     user.password = hashPassword(user.password);
     const created = await this.prisma.user.create({
@@ -19,28 +23,19 @@ class UserService {
     return created;
   }
 
-  async update(id: string, user: Prisma.UserUpdateInput): Promise<User> {
+  async update(
+    where: Prisma.UserWhereUniqueInput,
+    user: Prisma.UserUpdateInput
+  ): Promise<User> {
     return await this.prisma.user.update({
-      where: { id: id },
+      where: where,
       data: user,
     });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(where: Prisma.UserWhereUniqueInput): Promise<void> {
     await this.prisma.user.delete({
-      where: { id: id },
-    });
-  }
-
-  async get(id: string): Promise<User | null> {
-    return await this.prisma.user.findUnique({
-      where: { id: id },
-    });
-  }
-
-  async getByEmail(email: string): Promise<User | null> {
-    return await this.prisma.user.findUnique({
-      where: { email: email },
+      where: where,
     });
   }
 }

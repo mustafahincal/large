@@ -19,13 +19,30 @@ class CommentsController {
   }
 
   async getByBlog(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
+    const { blogId } = req.params;
     try {
-      const comments = await commentService.list({ blogId: id });
+      const comments = await commentService.list({ blogId });
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
         message: Messages.CommentListed,
         data: comments,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getById(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    try {
+      const comment = await commentService.get({
+        id,
+      });
+      if (!comment) throw new CustomError(404, Messages.CommentNotFound);
+      res.status(httpStatus.OK).send({
+        status: httpStatus.OK,
+        message: Messages.CommentListed,
+        data: comment,
       });
     } catch (err) {
       next(err);

@@ -432,8 +432,8 @@
                   "example": true
                 },
                 "authorId": {
-                  "type": "int",
-                  "example": 1
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
                 },
                 "tags": {
                   "type": "array",

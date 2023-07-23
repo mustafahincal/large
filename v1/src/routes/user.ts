@@ -9,4 +9,9 @@ router
   .get(usersController.index)
   .post(validator(userValidation.create), usersController.add);
 
+router
+  .route("/:id")
+  .get(usersController.getById)
+  .delete(usersController.remove);
+
 export default router;

@@ -3,6 +3,11 @@ import followService from "../services/Follow";
 import httpStatus from "http-status";
 import Messages from "../constants/Messages";
 import { CustomError } from "../utils/customError";
+import { JwtUserPayload } from "interfaces/auth";
+
+interface RequestJWT extends Request {
+  user: JwtUserPayload;
+}
 
 class FollowsControler {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -50,9 +55,13 @@ class FollowsControler {
     }
   }
 
-  async follow(req: Request, res: Response, next: NextFunction) {
+  async follow(req: any, res: Response, next: NextFunction) {
     try {
-      const follow = await followService.create(req.body);
+      const { userId } = req.params;
+      const follow = await followService.create({
+        follower: { connect: { id: req.user.id } },
+        following: { connect: { id: userId } },
+      });
       res.status(httpStatus.OK).send({
         message: Messages.FollowSuccess,
         data: follow,
