@@ -17,6 +17,21 @@ class BlogsController {
       next(err);
     }
   }
+
+  async getById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const blog = await blogService.get({ id });
+      res.status(httpStatus.OK).send({
+        status: httpStatus.OK,
+        message: "Blog found",
+        data: blog,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async add(
     req: Request<Prisma.BlogCreateInput>,
     res: Response,
@@ -38,6 +53,38 @@ class BlogsController {
         data: {
           blogId: createdBlog.id,
         },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { sections, ...rest } = req.body;
+      const updatedBlog = await blogService.update(id, rest);
+
+      await sectionService.updateMany({ id }, sections);
+
+      res.status(httpStatus.OK).send({
+        status: httpStatus.OK,
+        message: "Blog updated",
+        data: updatedBlog,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async remove(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      await blogService.delete({ id });
+      await sectionService.deleteMany({ blogId: id });
+      res.status(httpStatus.OK).send({
+        status: httpStatus.OK,
+        message: "Blog deleted",
       });
     } catch (err) {
       next(err);

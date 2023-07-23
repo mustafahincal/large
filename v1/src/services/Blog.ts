@@ -14,6 +14,12 @@ class BlogService {
     });
   }
 
+  async get(where: Prisma.BlogWhereUniqueInput): Promise<Blog | null> {
+    return await this.prisma.blog.findUnique({
+      where: where,
+    });
+  }
+
   async create(blog: Prisma.BlogCreateInput): Promise<Blog> {
     blog.updatedAt = new Date();
     blog.searchable_text = blog.title;
@@ -27,20 +33,14 @@ class BlogService {
 
   async update(id: string, blog: Prisma.BlogUpdateInput): Promise<Blog> {
     return await this.prisma.blog.update({
-      where: { id: id },
+      where: { id },
       data: blog,
     });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(where: Prisma.BlogWhereUniqueInput): Promise<void> {
     await this.prisma.blog.delete({
-      where: { id: id },
-    });
-  }
-
-  async get(id: string): Promise<Blog | null> {
-    return await this.prisma.blog.findUnique({
-      where: { id: id },
+      where: where,
     });
   }
 }

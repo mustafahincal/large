@@ -23,6 +23,22 @@ class SectionService {
       data: sections,
     });
   }
+
+  async updateMany(
+    where: Prisma.SectionWhereInput,
+    sections: Prisma.SectionUncheckedUpdateManyInput
+  ): Promise<any> {
+    return await this.prisma.section.updateMany({
+      where: where,
+      data: sections,
+    });
+  }
+
+  async deleteMany(where: Prisma.SectionWhereInput): Promise<any> {
+    return await this.prisma.section.deleteMany({
+      where: where,
+    });
+  }
 }
 
 export default new SectionService();

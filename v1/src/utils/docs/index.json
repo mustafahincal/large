@@ -143,6 +143,14 @@
       "description": "get information about a spesific user by id",
       "parameters": [
         {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        },
+        {
           "in": "path",
           "name": "id",
           "required": true,
@@ -198,6 +206,77 @@
                   "message": {
                     "type": "string",
                     "example": "user not exist"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["User"],
+      "summary": "Delete a user",
+      "description": "Delete a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to delete the user"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Successfully deleted the user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User has already been deleted"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User to delete not found"
                   }
                 }
               }
@@ -474,19 +553,97 @@
           }
         }
       }
-    },
-    "delete": {
+    }
+  },
+  "/blogs/{id}": {
+    "get": {
       "tags": ["Blog"],
-      "summary": "Deletes a post",
-      "description": "Deletes a post as soft delete",
+      "summary": "Get a specific blog by ID",
+      "description": "Get a specific blog by ID",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog to get"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog retrieved successfully"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "Sample Blog Title"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "This is the content of the blog"
+                      },
+                      "author": {
+                        "type": "string",
+                        "example": "John Doe"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": ["Blog"],
+      "summary": "Update a blog",
+      "description": "Update a blog",
       "parameters": [
         {
           "in": "header",
-          "name": "Bearer {token}",
+          "name": "Authorization",
           "schema": {
+            "type": "string",
             "format": "jwt"
           },
-          "required": true
+          "required": true,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog to update"
         }
       ],
       "requestBody": {
@@ -496,9 +653,51 @@
             "schema": {
               "type": "object",
               "properties": {
-                "postId": {
+                "title": {
+                  "type": "string",
+                  "example": "the blog title"
+                },
+                "sections": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "the blog sub-title"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "the blog sub-content"
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "/public/image-1.jpg"
+                      },
+                      "type": {
+                        "type": "enum",
+                        "example": "TEXT"
+                      }
+                    }
+                  }
+                },
+                "image": {
+                  "type": "string",
+                  "example": "/public/image.jpg"
+                },
+                "published": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "authorId": {
                   "type": "string",
                   "example": "123456789abcdefghij01234"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "tag-1"
+                  }
                 }
               }
             }
@@ -514,7 +713,24 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "the post deleted successfully"
+                    "example": "Blog updated successfully"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "example": "Updated Blog Title"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "This is the updated content of the blog"
+                      },
+                      "author": {
+                        "type": "string",
+                        "example": "John Doe"
+                      }
+                    }
                   }
                 }
               }
@@ -529,7 +745,7 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "cannot delete a post you dont own"
+                    "example": "You are not authorized to update this blog"
                   }
                 }
               }
@@ -544,7 +760,78 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "the post not found"
+                    "example": "Blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Blog"],
+      "summary": "Deletes a blog",
+      "description": "Deletes a blog",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to delete the user"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "the blog deleted successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "403": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "cannot delete a blog you dont own"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "the blog not found"
                   }
                 }
               }
