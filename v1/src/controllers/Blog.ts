@@ -22,6 +22,8 @@ class BlogsController {
     try {
       const { id } = req.params;
       const blog = await blogService.get({ id });
+      if (!blog) throw new Error("Blog not found");
+
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
         message: "Blog found",
@@ -46,7 +48,8 @@ class BlogsController {
         blogId: createdBlog.id,
       }));
 
-      await sectionService.createMany(sectionsToAdd);
+      if (sectionsToAdd.length > 0)
+        await sectionService.createMany(sectionsToAdd);
 
       res.send({
         message: "blog added succesfully",
@@ -63,14 +66,18 @@ class BlogsController {
     try {
       const { id } = req.params;
       const { sections, ...rest } = req.body;
-      const updatedBlog = await blogService.update(id, rest);
+      await blogService.update(id, rest);
 
-      await sectionService.updateMany({ id }, sections);
+      if (sections && Array.isArray(sections)) {
+        await sectionService.updateMany(
+          { blogId: id },
+          sections as Prisma.SectionUncheckedUpdateManyInput
+        );
+      }
 
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
         message: "Blog updated",
-        data: updatedBlog,
       });
     } catch (err) {
       next(err);
@@ -81,7 +88,6 @@ class BlogsController {
     try {
       const { id } = req.params;
       await blogService.delete({ id });
-      await sectionService.deleteMany({ blogId: id });
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
         message: "Blog deleted",

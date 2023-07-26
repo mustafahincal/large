@@ -377,9 +377,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 200,
                   "message": {
                     "type": "string",
-                    "example": "comments listed"
+                    "example": "Blogs listed"
                   },
                   "data": {
                     "type": "array",
@@ -562,6 +563,16 @@
       "description": "Get a specific blog by ID",
       "parameters": [
         {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
           "in": "path",
           "name": "id",
           "required": true,
@@ -578,6 +589,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "Blog retrieved successfully"
@@ -585,17 +597,63 @@
                   "data": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "int",
+                        "example": 1
+                      },
                       "title": {
                         "type": "string",
-                        "example": "Sample Blog Title"
+                        "example": "the blog title"
                       },
-                      "content": {
-                        "type": "string",
-                        "example": "This is the content of the blog"
+                      "sections": {
+                        "type": "array",
+                        "items": {
+                          "properties": {
+                            "id": {
+                              "type": "int",
+                              "example": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "the blog sub-title"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "the blog sub-content"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "/public/image-1.jpg"
+                            }
+                          }
+                        }
                       },
-                      "author": {
+                      "image": {
                         "type": "string",
-                        "example": "John Doe"
+                        "example": "/public/image.jpg"
+                      },
+                      "published": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "authorId": {
+                        "type": "int",
+                        "example": 1
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "example": "tag-1"
+                        }
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
                       }
                     }
                   }
@@ -610,6 +668,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "Blog not found"
@@ -633,7 +692,7 @@
             "type": "string",
             "format": "jwt"
           },
-          "required": true,
+          "required": false,
           "description": "JWT Bearer token for authentication"
         },
         {
@@ -711,6 +770,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "Blog updated successfully"
@@ -743,6 +803,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 403,
                   "message": {
                     "type": "string",
                     "example": "You are not authorized to update this blog"
@@ -758,6 +819,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "Blog not found"
@@ -780,7 +842,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         },
         {
           "in": "path",
@@ -799,6 +861,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "the blog deleted successfully"
@@ -814,6 +877,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 403,
                   "message": {
                     "type": "string",
                     "example": "cannot delete a blog you dont own"
@@ -829,6 +893,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "the blog not found"
@@ -1269,6 +1334,198 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "status": 200,
+                  "message": {
+                    "type": "string",
+                    "example": "followed successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": 409,
+                  "message": {
+                    "type": "string",
+                    "example": "followed already"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": 404,
+                  "message": {
+                    "type": "string",
+                    "example": "user to follow not found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": 401,
+                  "message": {
+                    "type": "string",
+                    "example": "you may not follow yourself"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["User"],
+      "summary": "Unfollows a user",
+      "description": "Unfollows a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "unfollowed successfully"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "409": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "not followed already"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "user to unfollow not found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "you may not unfollow yourself"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/follow/{followingId}": {
+    "post": {
+      "tags": ["User"],
+      "summary": "Follows a user",
+      "description": "Follows a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": true
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
                   "message": {
                     "type": "string",
                     "example": "followed successfully"
@@ -1410,88 +1667,6 @@
                   "message": {
                     "type": "string",
                     "example": "you may not unfollow yourself"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "/feed": {
-    "get": {
-      "tags": ["User"],
-      "summary": "Gets your all posts of your followers",
-      "description": "Gets your all posts of your followers",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "responses": {
-        "200": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "username": {
-                        "type": "string",
-                        "example": "ahmetyilmaz"
-                      },
-                      "following": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "username": {
-                              "type": "string",
-                              "example": "mehmetyilmaz"
-                            },
-                            "posts": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "postId": {
-                                    "type": "string",
-                                    "example": "123456789abcdefghij01234"
-                                  },
-                                  "content": {
-                                    "type": "string",
-                                    "example": "the post content"
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "user not found"
                   }
                 }
               }

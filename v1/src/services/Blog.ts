@@ -17,6 +17,7 @@ class BlogService {
   async get(where: Prisma.BlogWhereUniqueInput): Promise<Blog | null> {
     return await this.prisma.blog.findUnique({
       where: where,
+      include: { sections: true },
     });
   }
 

@@ -8,8 +8,10 @@ class SectionService {
     this.prisma = new PrismaClient();
   }
 
-  async list(): Promise<Section[]> {
-    return await this.prisma.section.findMany();
+  async list(where?: Prisma.SectionWhereInput): Promise<Section[]> {
+    return await this.prisma.section.findMany({
+      where: where,
+    });
   }
 
   async create(section: any): Promise<Section> {
