@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { Prisma, Section } from "@prisma/client";
 import blogService from "../services/Blog";
 import sectionService from "../services/Section";
+import userService from "../services/User";
 
 class BlogsController {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -41,6 +42,10 @@ class BlogsController {
   ) {
     try {
       const { sections, ...rest } = req.body;
+      const userCheck = await userService.get({ id: rest.authorId });
+
+      if (!userCheck) throw new Error("User not found");
+
       const createdBlog = await blogService.create(rest);
 
       const sectionsToAdd = sections.map((section: Section) => ({

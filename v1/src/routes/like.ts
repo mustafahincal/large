@@ -5,7 +5,7 @@ import likeController from "../controllers/Likes";
 router.route("/").get(likeController.index);
 router
   .route("/:blogId&:userId")
-  .post(likeController.like)
+  .get(likeController.like)
   .delete(likeController.unlike);
 
 export default router;

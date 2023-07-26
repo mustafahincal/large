@@ -4,6 +4,8 @@ import authRouter from "./auth";
 import blogRouter from "./blog";
 import uploadRouter from "./upload";
 import commentRouter from "./comment";
+import likeRouter from "./like";
+import followRouter from "./follow";
 
 class Router {
   private router: express.Router;
@@ -14,10 +16,11 @@ class Router {
     this.router.use("/auth", authRouter);
     this.router.use("/users", userRouter);
     this.router.use("/blogs", blogRouter);
-    this.router.use("/upload", uploadRouter);
-    this.router.use("/follows", uploadRouter);
-    this.router.use("/likes", uploadRouter);
+    this.router.use("/follows", followRouter);
+    this.router.use("/likes", likeRouter);
     this.router.use("/comments", commentRouter);
+    this.router.use("/upload", uploadRouter);
+
     return this.router;
   }
 }

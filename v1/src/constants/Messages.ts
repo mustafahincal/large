@@ -33,7 +33,7 @@ export default class Messages {
   static CommentNotFound = "Comment not found.";
 
   // Like işlemleri
-  static LikeAdded = "Liked the post.";
-  static LikeRemoved = "Unliked the post.";
+  static LikeAdded = "Liked the blog.";
+  static LikeRemoved = "Unliked the blog.";
   static LikeNotFound = "Like not found.";
 }

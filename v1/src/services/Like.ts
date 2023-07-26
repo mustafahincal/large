@@ -11,11 +11,12 @@ class LikeService {
   async list(where?: Prisma.LikeWhereInput): Promise<Like[]> {
     return await this.prisma.like.findMany({
       where: where,
+      // include: { user: true },
     });
   }
 
   async get(where: any): Promise<Like | null> {
-    return await this.prisma.like.findUnique({
+    return await this.prisma.like.findFirst({
       where: where,
     });
   }

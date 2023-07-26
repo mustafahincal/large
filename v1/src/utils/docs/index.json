@@ -225,7 +225,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         },
         {
           "in": "path",
@@ -369,6 +369,16 @@
       "tags": ["Blog"],
       "summary": "Lists blogs",
       "description": "Lists blogs",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": false
+        }
+      ],
       "responses": {
         "200": {
           "description": "Successful response",
@@ -906,6 +916,175 @@
       }
     }
   },
+  "/likes": {
+    "get": {
+      "tags": ["Likes"],
+      "summary": "Lists likes",
+      "description": "Lists likes",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "likes listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "first_name": {
+                          "type": "string",
+                          "example": "test1FirstName"
+                        },
+                        "last_name": {
+                          "type": "string",
+                          "example": "test1LastName"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "test1@gmail.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "12345a"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/likes/{blogId}&{userId}": {
+    "get": {
+      "tags": ["Likes"],
+      "summary": "Get a specific blog by following and follower ID",
+      "description": "Get a specific blog by following and follower ID",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "blogId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog"
+        },
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Liked blogs retrieved successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LikedBlogsResponse"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "No liked blogs found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Likes"],
+      "summary": "Unlike a blog",
+      "description": "Unlike a blog by removing the like of a specific user (follower)",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "blogId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog"
+        },
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user (follower) who wants to remove the like"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Unlike operation is successful",
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "404": {
+          "description": "Blog not found or like not found",
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "403": {
+          "description": "Unauthorized: The user does not have permission to remove the like",
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        }
+      }
+    }
+  },
   "/upload/image": {
     "post": {
       "tags": ["Upload"],
@@ -938,164 +1117,6 @@
                   "message": {
                     "type": "string",
                     "example": "Image uploaded successfully"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "/likes": {
-    "post": {
-      "tags": ["Blog"],
-      "summary": "Likes a blog",
-      "description": "Likes a blog",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "blogId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "followed successfully"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "409": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "liked already"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "blog to like not found"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "delete": {
-      "tags": ["Blog"],
-      "summary": "UnLikes a blog",
-      "description": "UnLikes a blog",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "blogId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "unliked successfully"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "409": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "blog liked already"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "blog to unlike not found"
                   }
                 }
               }
@@ -1296,198 +1317,7 @@
       }
     }
   },
-  "/follow": {
-    "post": {
-      "tags": ["User"],
-      "summary": "Follows a user",
-      "description": "Follows a user",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "status": 200,
-                  "message": {
-                    "type": "string",
-                    "example": "followed successfully"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "409": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "status": 409,
-                  "message": {
-                    "type": "string",
-                    "example": "followed already"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "status": 404,
-                  "message": {
-                    "type": "string",
-                    "example": "user to follow not found"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "status": 401,
-                  "message": {
-                    "type": "string",
-                    "example": "you may not follow yourself"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "delete": {
-      "tags": ["User"],
-      "summary": "Unfollows a user",
-      "description": "Unfollows a user",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Bearer {token}",
-          "schema": {
-            "format": "jwt"
-          },
-          "required": true
-        }
-      ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "unfollowed successfully"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "409": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "not followed already"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "404": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "user to unfollow not found"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "401": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "you may not unfollow yourself"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
+  "/follow": {},
   "/follow/{followingId}": {
     "post": {
       "tags": ["User"],

@@ -10,14 +10,23 @@ class BlogService {
 
   async list(): Promise<Blog[]> {
     return await this.prisma.blog.findMany({
-      include: { sections: true },
+      include: {
+        sections: true,
+        comments: true,
+        likes: {
+          select: {
+            userId: true,
+            // user: true,
+          },
+        },
+      },
     });
   }
 
   async get(where: Prisma.BlogWhereUniqueInput): Promise<Blog | null> {
     return await this.prisma.blog.findUnique({
       where: where,
-      include: { sections: true },
+      include: { sections: true, comments: true, likes: true },
     });
   }
 
