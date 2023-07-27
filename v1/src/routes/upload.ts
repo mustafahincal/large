@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import express from "express";
 import multer from "multer";
 import uploadController from "../controllers/Upload";
+import path from "path"; // Import the 'path' module
 
 const storage = multer.diskStorage({
   destination: function (
@@ -9,7 +10,8 @@ const storage = multer.diskStorage({
     file: Express.Multer.File,
     cb: (error: Error | null, destination: string) => void
   ) {
-    cb(null, "public/img/uploads");
+    // Use 'path.join' to ensure correct path separator
+    cb(null, path.join("public", "img", "uploads"));
   },
   filename: function (
     req: Request,
@@ -30,8 +32,6 @@ const upload = multer({
 
 const router = express.Router();
 
-router
-  .route("/image")
-  .post(upload.single("image"), uploadController.uploadImage);
+router.route("/image").post(upload.single("image"), uploadController.uploadImage);
 
 export default router;

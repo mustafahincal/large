@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import path from "path";
 
 interface MulterRequest extends Request {
   file: any;
@@ -12,10 +13,9 @@ class UploadController {
   ) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     try {
-      const url = `${process.env.BASE_URL}/${req.file.path.replace(
-        "public/",
-        ""
-      )}`;
+      const baseUrl = process.env.BASE_URL || "http://localhost:4000";
+      const filePath = req.file.path.replace("public" + path.sep, "");
+      const url = `${baseUrl}/${filePath.split(path.sep).join("/")}`;
       return res.send({
         url: url,
       });
