@@ -439,6 +439,27 @@
                           "type": "int",
                           "example": 1
                         },
+                        "author": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "1"
+                            },
+                            "first_name": {
+                              "type": "string",
+                              "example": "test1FirstName"
+                            },
+                            "last_name": {
+                              "type": "string",
+                              "example": "test1LastName"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "test1@gmail.com"
+                            }
+                          }
+                        },
                         "tags": {
                           "type": "array",
                           "items": {
@@ -990,8 +1011,29 @@
                         "example": true
                       },
                       "authorId": {
-                        "type": "int",
-                        "example": 1
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "author": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "first_name": {
+                            "type": "string",
+                            "example": "test1FirstName"
+                          },
+                          "last_name": {
+                            "type": "string",
+                            "example": "test1LastName"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "test1@gmail.com"
+                          }
+                        }
                       },
                       "tags": {
                         "type": "array",

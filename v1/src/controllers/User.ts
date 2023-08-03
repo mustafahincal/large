@@ -6,6 +6,15 @@ import Messages from "../constants/Messages";
 import { CustomError } from "../utils/customError";
 
 class UsersController {
+  /*   exclude<User, Key extends keyof User>(
+    user: User,
+    keys: Key[]
+  ): Omit<User, Key> {
+    return Object.fromEntries(
+      Object.entries(user).filter(([key]) => !keys.includes(key))
+    );
+  } */
+
   async index(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await userService.list();
