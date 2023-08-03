@@ -1382,30 +1382,34 @@
       }
     }
   },
-  "/upload/image": {
-    "post": {
-      "tags": ["Upload"],
-      "summary": "Upload an image",
-      "description": "Upload an image",
-      "requestBody": {
-        "required": true,
-        "content": {
-          "multipart/form-data": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "image": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
+  "/follows/followers/{id}": {
+    "get": {
+      "tags": ["Follow"],
+      "summary": "Get followers of a user",
+      "description": "Get followers of a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to get followers"
         }
-      },
+      ],
       "responses": {
         "200": {
-          "description": "Image uploaded successfully",
           "content": {
             "application/json": {
               "schema": {
@@ -1413,7 +1417,34 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "Image uploaded successfully"
+                    "example": "Followers listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User not found"
                   }
                 }
               }
@@ -1423,11 +1454,81 @@
       }
     }
   },
-
-  "/follow": {},
-  "/follow/{followingId}": {
+  "/follows/followings/{id}": {
+    "get": {
+      "tags": ["Follow"],
+      "summary": "Get followings of a user",
+      "description": "Get followings of a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to get followings"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Followings listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/follows/{id}": {
     "post": {
-      "tags": ["User"],
+      "tags": ["Follow"],
       "summary": "Follows a user",
       "description": "Follows a user",
       "parameters": [
@@ -1437,25 +1538,18 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to follow"
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -1520,7 +1614,7 @@
       }
     },
     "delete": {
-      "tags": ["User"],
+      "tags": ["Follow"],
       "summary": "Unfollows a user",
       "description": "Unfollows a user",
       "parameters": [
@@ -1530,25 +1624,18 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to unfollow"
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -1604,6 +1691,47 @@
                   "message": {
                     "type": "string",
                     "example": "you may not unfollow yourself"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/upload/image": {
+    "post": {
+      "tags": ["Upload"],
+      "summary": "Upload an image",
+      "description": "Upload an image",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Image uploaded successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Image uploaded successfully"
                   }
                 }
               }

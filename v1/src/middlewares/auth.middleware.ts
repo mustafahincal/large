@@ -13,7 +13,7 @@ class Authentication {
     if (!token) {
       return res
         .status(httpStatus.UNAUTHORIZED)
-        .send({ message: "Please try again!" });
+        .send({ message: "Please try again!, token failed." });
     }
     JWT.verify(
       token as string,

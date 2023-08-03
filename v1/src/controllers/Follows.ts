@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import followService from "../services/Follow";
+import userService from "../services/User";
 import httpStatus from "http-status";
 import Messages from "../constants/Messages";
 import { CustomError } from "../utils/customError";
@@ -20,10 +21,13 @@ class FollowsControler {
   }
 
   async getFollowings(req: Request, res: Response, next: NextFunction) {
-    const { followerId } = req.params;
+    const { id } = req.params;
     try {
+      const user = await userService.get({ id });
+      if (!user) throw new CustomError(404, Messages.UserNotFound);
+
       const follows = await followService.list({
-        followerId,
+        followerId: id,
       });
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
@@ -36,10 +40,14 @@ class FollowsControler {
   }
 
   async getFollowers(req: Request, res: Response, next: NextFunction) {
-    const { followingId } = req.params;
+    const { id } = req.params;
+
     try {
+      const user = await userService.get({ id });
+      if (!user) throw new CustomError(404, Messages.UserNotFound);
+
       const follows = await followService.list({
-        followingId,
+        followingId: id,
       });
       res.status(httpStatus.OK).send({
         status: httpStatus.OK,
@@ -52,11 +60,15 @@ class FollowsControler {
   }
 
   async follow(req: Request, res: Response, next: NextFunction) {
+    /* req.user = {
+      id: "0d9fc930-126c-45e6-bfb6-1fd314b9d0c9",
+      username: "test",
+    }; */
     try {
-      const { followerId, followingId } = req.params;
+      const { id } = req.params;
       const follow = await followService.create({
-        follower: { connect: { id: followerId } },
-        following: { connect: { id: followingId } },
+        follower: { connect: { id: req.user.id } },
+        following: { connect: { id: id } },
       });
       res.status(httpStatus.OK).send({
         message: Messages.FollowSuccess,
@@ -68,18 +80,24 @@ class FollowsControler {
   }
 
   async unfollow(req: Request, res: Response, next: NextFunction) {
-    const { followerId, followingId } = req.params;
+    const { id } = req.params;
+    /* req.user = {
+      id: "0d9fc930-126c-45e6-bfb6-1fd314b9d0c9",
+      username: "test",
+    }; */
     try {
       const follow = await followService.get({
-        followerId,
-        followingId,
+        followerId_followingId: {
+          followerId: req.user.id,
+          followingId: id,
+        },
       });
       if (!follow) throw new CustomError(404, Messages.FollowerNotFound);
 
       await followService.delete({
         followerId_followingId: {
-          followerId,
-          followingId,
+          followerId: req.user.id,
+          followingId: id,
         },
       });
 

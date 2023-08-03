@@ -14,7 +14,7 @@ class FollowService {
     });
   }
 
-  async get(where: any): Promise<Follow | null> {
+  async get(where: Prisma.FollowWhereUniqueInput): Promise<Follow | null> {
     return await this.prisma.follow.findUnique({
       where: where,
     });
