@@ -387,7 +387,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "Blogs listed"
@@ -599,7 +598,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "Blog retrieved successfully"
@@ -678,7 +676,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "Blog not found"
@@ -871,7 +868,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "the blog deleted successfully"
@@ -887,7 +883,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 403,
                   "message": {
                     "type": "string",
                     "example": "cannot delete a blog you dont own"
@@ -903,7 +898,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "the blog not found"
@@ -1085,50 +1079,9 @@
       }
     }
   },
-  "/upload/image": {
-    "post": {
-      "tags": ["Upload"],
-      "summary": "Upload an image",
-      "description": "Upload an image",
-      "requestBody": {
-        "required": true,
-        "content": {
-          "multipart/form-data": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "image": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "description": "Image uploaded successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "Image uploaded successfully"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
   "/comments": {
     "get": {
-      "tags": ["Blog"],
+      "tags": ["Comment"],
       "summary": "Lists comments",
       "description": "Lists comments",
       "responses": {
@@ -1183,7 +1136,7 @@
       }
     },
     "post": {
-      "tags": ["Blog"],
+      "tags": ["Comment"],
       "summary": "Comments a blog",
       "description": "Comments a blog",
       "parameters": [
@@ -1193,7 +1146,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         }
       ],
       "requestBody": {
@@ -1222,6 +1175,7 @@
       },
       "responses": {
         "200": {
+          "description": "Successful response",
           "content": {
             "application/json": {
               "schema": {
@@ -1229,7 +1183,36 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "commented successfully"
+                    "example": "comments listed"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "blogId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "the comment content"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      }
+                    }
                   }
                 }
               }
@@ -1244,7 +1227,96 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "comment not found"
+                    "example": "blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/comments/{id}": {
+    "get": {
+      "tags": ["Comment"],
+      "summary": "Get a specific blog by ID",
+      "description": "Get a specific blog by ID",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog to get"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog is listed"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": 1
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "the user id"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "the content of comment"
+                      },
+                      "blogId": {
+                        "type": "string",
+                        "example": "the blog id"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog not found"
                   }
                 }
               }
@@ -1254,7 +1326,7 @@
       }
     },
     "delete": {
-      "tags": ["Blog"],
+      "tags": ["Comment"],
       "summary": "Deletes a comment",
       "description": "Deletes a comment",
       "parameters": [
@@ -1264,25 +1336,18 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the comment to delete"
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "commentId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -1317,6 +1382,48 @@
       }
     }
   },
+  "/upload/image": {
+    "post": {
+      "tags": ["Upload"],
+      "summary": "Upload an image",
+      "description": "Upload an image",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Image uploaded successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Image uploaded successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
   "/follow": {},
   "/follow/{followingId}": {
     "post": {

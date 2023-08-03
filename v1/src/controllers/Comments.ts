@@ -34,6 +34,7 @@ class CommentsController {
 
   async getById(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
+    console.log(req.params);
     try {
       const comment = await commentService.get({
         id,
@@ -51,6 +52,7 @@ class CommentsController {
 
   async add(req: Request, res: Response, next: NextFunction) {
     try {
+      console.log(req.body);
       const comment = await commentService.create(req.body);
       res.status(httpStatus.OK).send({
         message: Messages.CommentAdded,
@@ -63,6 +65,7 @@ class CommentsController {
 
   async remove(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
+    console.log(req.params);
     try {
       const comment = await commentService.get({
         id,
