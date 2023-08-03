@@ -910,6 +910,129 @@
       }
     }
   },
+  "/blogs/author/{id}": {
+    "get": {
+      "tags": ["Blog"],
+      "summary": "Get a specific blog by ID",
+      "description": "Get a specific blog by ID",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog author"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog listed by author id successfully"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "int",
+                        "example": 1
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "the blog title"
+                      },
+                      "sections": {
+                        "type": "array",
+                        "items": {
+                          "properties": {
+                            "id": {
+                              "type": "int",
+                              "example": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "the blog sub-title"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "the blog sub-content"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "/public/image-1.jpg"
+                            }
+                          }
+                        }
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "/public/image.jpg"
+                      },
+                      "published": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "authorId": {
+                        "type": "int",
+                        "example": 1
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "example": "tag-1"
+                        }
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/likes": {
     "get": {
       "tags": ["Likes"],

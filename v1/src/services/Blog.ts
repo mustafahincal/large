@@ -8,8 +8,9 @@ class BlogService {
     this.prisma = new PrismaClient();
   }
 
-  async list(): Promise<Blog[]> {
+  async list(where?: Prisma.BlogWhereInput): Promise<Blog[]> {
     return await this.prisma.blog.findMany({
+      where: where,
       include: {
         sections: true,
         comments: true,

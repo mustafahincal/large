@@ -19,6 +19,20 @@ class BlogsController {
     }
   }
 
+  async getByAuthor(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const blogs = await blogService.list({ authorId: id });
+      res.status(httpStatus.OK).send({
+        status: httpStatus.OK,
+        message: "List of blogs",
+        data: blogs,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
