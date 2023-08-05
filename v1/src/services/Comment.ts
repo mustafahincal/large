@@ -11,6 +11,15 @@ class CommentService {
   async list(where?: Prisma.CommentWhereInput): Promise<Comment[]> {
     return await this.prisma.comment.findMany({
       where: where,
+      include:{
+        user:{
+          select:{
+            id:true,
+            first_name:true,
+            last_name:true
+          }
+        }
+      }
     });
   }
 
