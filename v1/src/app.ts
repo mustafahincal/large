@@ -18,11 +18,11 @@ function startServer() {
   server.listen(port, async () => {
     console.log(`App is running at http://localhost:${port}`);
   });
-  /* 
-  app.use("/api/test", (req, res) => {
+
+  app.get("/", (req, res) => {
     res.send("Hello World");
   });
- */
+
   app.use("/api", Router.initializeRoutes());
   app.use(ErrorHandler.handleNotFound);
   app.use(ErrorHandler.handleError);

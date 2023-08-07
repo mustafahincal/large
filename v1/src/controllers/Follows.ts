@@ -59,7 +59,7 @@ class FollowsControler {
     }
   }
 
-  async follow(req: Request, res: Response, next: NextFunction) {
+  async follow(req: any, res: Response, next: NextFunction) {
     /* req.user = {
       id: "0d9fc930-126c-45e6-bfb6-1fd314b9d0c9",
       username: "test",
@@ -79,7 +79,7 @@ class FollowsControler {
     }
   }
 
-  async unfollow(req: Request, res: Response, next: NextFunction) {
+  async unfollow(req: any, res: Response, next: NextFunction) {
     const { id } = req.params;
     /* req.user = {
       id: "0d9fc930-126c-45e6-bfb6-1fd314b9d0c9",

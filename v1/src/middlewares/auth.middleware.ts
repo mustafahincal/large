@@ -3,12 +3,8 @@ import JWT from "jsonwebtoken";
 import type { NextFunction, Request, Response } from "express";
 import { JwtUserPayload } from "../interfaces/auth";
 
-interface RequestJWT extends Request {
-  user: JwtUserPayload;
-}
-
 class Authentication {
-  authenticate(req: RequestJWT, res: Response, next: NextFunction) {
+  authenticate(req: Request, res: Response, next: NextFunction) {
     const token: string | undefined = req.headers?.authorization?.split(" ")[1];
     if (!token) {
       return res
