@@ -19,6 +19,21 @@ class LikesController {
       next(err);
     }
   }
+
+  async getByBlog(req: Request, res: Response, next: NextFunction) {
+    const { blogId } = req.params;
+    try {
+      const likes = await likeService.list({ blogId });
+      res.status(httpStatus.OK).send({
+        status: httpStatus.OK,
+        message: Messages.LikeListed,
+        data: likes,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async like(req: Request, res: Response, next: NextFunction) {
     try {
       const { blogId, userId } = req.params;

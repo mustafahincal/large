@@ -8,4 +8,6 @@ router
   .get(likeController.like)
   .delete(likeController.unlike);
 
+router.route("/blog/:blogId").get(likeController.getByBlog);
+
 export default router;
