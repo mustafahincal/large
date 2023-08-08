@@ -36,6 +36,12 @@ class AuthController {
       next(err);
     }
   }
+
+  async handleSuccessfullAuth(req: Request, res: Response, next: NextFunction) {
+    console.log(req.user);
+    console.log(req);
+    res.redirect("http://localhost:3000");
+  }
 }
 
 export default new AuthController();

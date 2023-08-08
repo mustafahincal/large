@@ -9,7 +9,12 @@ export default () => {
         clientSecret: `30223da17382fd70c35221b5f2f9f6f3da114021`,
         callbackURL: "http://localhost:4000/api/auth/github/callback",
       },
-      async (accessToken: any, refreshToken: any, profile: any, cb: any) => {
+      async function (
+        accessToken: any,
+        refreshToken: any,
+        profile: any,
+        cb: any
+      ) {
         // called when user is authenticated
         // insert or update user data in database
         console.log(profile);

@@ -4,6 +4,7 @@ import http from "http";
 import ErrorHandler from "./middlewares/error.middleware";
 import Router from "./routes";
 import config from "./config";
+import passport from "passport";
 
 function startServer() {
   const app = express();
@@ -11,6 +12,7 @@ function startServer() {
   app.use(express.static("public"));
   app.use(cors());
   app.use(express.json());
+  app.use(passport.initialize());
 
   const port = process.env.PORT || 4000;
   const server = http.createServer(app);
