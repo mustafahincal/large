@@ -43,12 +43,19 @@ model Section {
   blogId    String
 }
 
+enum Role{
+  READER
+  WRITER
+  ADMIN
+  MANAGER
+}
 model User {
   id            String    @id @default(uuid()) @db.VarChar(36)
   email         String    @unique
   first_name    String
   last_name     String
   password      String 
+  role          Role      @default(READER)
   blogs         Blog[]
   likes         Like[]
   comments      Comment[]

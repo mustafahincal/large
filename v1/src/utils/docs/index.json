@@ -21,6 +21,10 @@
                     "items": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "1asdhqwetqwyut123123asazxa"
+                        },
                         "first_name": {
                           "type": "string",
                           "example": "test1FirstName"
@@ -33,9 +37,9 @@
                           "type": "string",
                           "example": "test1@gmail.com"
                         },
-                        "password": {
+                        "ROLE": {
                           "type": "string",
-                          "example": "12345a"
+                          "example": "WRITER"
                         }
                       }
                     }
@@ -148,7 +152,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         },
         {
           "in": "path",
@@ -174,6 +178,10 @@
                   "data": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1asdhqwetqwyut123123asazxa"
+                      },
                       "first_name": {
                         "type": "string",
                         "example": "test1FirstName"
@@ -186,9 +194,9 @@
                         "type": "string",
                         "example": "test1@gmail.com"
                       },
-                      "password": {
+                      "ROLE": {
                         "type": "string",
-                        "example": "12345a"
+                        "example": "WRITER"
                       }
                     }
                   }

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --files v1/src/app.ts",
     "prod": "nodemon --files v1/src/app.ts",
+    "seed:dev": "node v1/src/bin/seed/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
