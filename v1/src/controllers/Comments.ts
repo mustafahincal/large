@@ -45,6 +45,15 @@ class CommentsController {
     });
   }
 
+  async patch(req:Request,res:Response,next:NextFunction){
+    const {id} = req.params
+    const comment = await commentService.update({id},req.body)
+    res.status(httpStatus.OK).send({
+      message:Messages.CommentUpdated,
+      data:comment
+    })
+  }
+
   async remove(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
 

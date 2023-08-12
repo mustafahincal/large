@@ -10,7 +10,8 @@ router
 router
   .route("/:id")
   .get(errorCatcher(commentController.getById))
-  .delete(errorCatcher(commentController.remove));
+  .delete(errorCatcher(commentController.remove))
+  .patch(errorCatcher(commentController.patch))
 router.route("/blog/:blogId").get(errorCatcher(commentController.getByBlog));
 
 export default router;

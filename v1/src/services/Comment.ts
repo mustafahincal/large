@@ -35,6 +35,15 @@ class CommentService {
     });
   }
 
+  async update(
+    where:Prisma.CommentWhereUniqueInput,
+    data:Prisma.CommentUpdateInput
+    ):Promise<Comment>{
+    return await this.prisma.comment.update({
+      where:where,data:data
+    })
+  }
+
   async delete(where: Prisma.CommentWhereUniqueInput): Promise<void> {
     await this.prisma.comment.delete({
       where: where,
