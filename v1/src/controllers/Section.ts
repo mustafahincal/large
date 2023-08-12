@@ -5,16 +5,12 @@ import sectionService from "../services/Section";
 
 class SectionsController {
   async index(req: Request, res: Response, next: NextFunction) {
-    try {
-      const sections = await sectionService.list();
-      res.status(httpStatus.OK).send({
-        status: httpStatus.OK,
-        message: "List of blogs",
-        data: sections,
-      });
-    } catch (err) {
-      next(err);
-    }
+    const sections = await sectionService.list();
+    res.status(httpStatus.OK).send({
+      status: httpStatus.OK,
+      message: "List of blogs",
+      data: sections,
+    });
   }
 }
 

@@ -10,7 +10,7 @@ const prisma = new PrismaClient({
 });
 
 async function createAdminUser() {
-  const email = "superadmin1@blog.com";
+  const email = "superadmin@blog.com";
   const admin = {
     email: email,
     first_name: "Super",

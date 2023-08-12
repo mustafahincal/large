@@ -7,6 +7,7 @@ export default class Messages {
   static UserNotFound = "User not found";
   static UserAlreadyExists = "User already exists";
   static UserDeletedSuccesfull = "User deleted successfully";
+  static UserUpdatedSuccesfull = "User updated successfully";
 
   // Blog işlemleri
   static BlogListed = "Blog posts are listed";
@@ -36,5 +37,5 @@ export default class Messages {
   static LikeAdded = "Liked the blog";
   static LikeRemoved = "Unliked the blog";
   static LikeNotFound = "Like not found";
-  static LikeListed = "Likes are listed"
+  static LikeListed = "Likes are listed";
 }

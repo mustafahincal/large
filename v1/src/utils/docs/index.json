@@ -292,6 +292,94 @@
           }
         }
       }
+    },
+    "patch": {
+      "tags": ["User"],
+      "summary": "Update a user",
+      "description": "Update a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to update the user"
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string",
+                  "example": "test1FirstName"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "test1LastName"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test1@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345a"
+                },
+                "role": {
+                  "type": "string",
+                  "example": "AUTHOR"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Successfully updated the user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User to update not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "/auth": {
