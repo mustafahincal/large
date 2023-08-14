@@ -16,9 +16,9 @@ class Router {
     this.router.use("/auth", authRouter);
     this.router.use("/users", userRouter);
     this.router.use("/blogs", blogRouter);
-    this.router.use("/follows", followRouter);
     this.router.use("/likes", likeRouter);
     this.router.use("/comments", commentRouter);
+    this.router.use("/follows", followRouter);
     this.router.use("/upload", uploadRouter);
 
     return this.router;

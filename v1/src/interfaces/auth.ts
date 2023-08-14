@@ -3,6 +3,7 @@ export interface JwtUserPayload {
   first_name: string;
   last_name: string;
   email: string;
+  ROLE: string;
 }
 
 export interface UserLoginRequest {

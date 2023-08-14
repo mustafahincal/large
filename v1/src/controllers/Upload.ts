@@ -12,16 +12,12 @@ class UploadController {
     next: NextFunction
   ) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    try {
-      const baseUrl = process.env.BASE_URL || "http://localhost:4000";
-      const filePath = req.file.path.replace("public" + path.sep, "");
-      const url = `${baseUrl}/${filePath.split(path.sep).join("/")}`;
-      return res.send({
-        url: url,
-      });
-    } catch (err) {
-      return next(err);
-    }
+    const baseUrl = process.env.BASE_URL || "http://localhost:4000";
+    const filePath = req.file.path.replace("public" + path.sep, "");
+    const url = `${baseUrl}/${filePath.split(path.sep).join("/")}`;
+    return res.send({
+      url: url,
+    });
   };
 }
 

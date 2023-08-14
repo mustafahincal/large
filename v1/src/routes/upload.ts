@@ -3,6 +3,7 @@ import express from "express";
 import multer from "multer";
 import uploadController from "../controllers/Upload";
 import path from "path"; // Import the 'path' module
+import { errorCatcher } from "../utils/errorCatcher";
 
 const storage = multer.diskStorage({
   destination: function (
@@ -32,6 +33,8 @@ const upload = multer({
 
 const router = express.Router();
 
-router.route("/image").post(upload.single("image"), uploadController.uploadImage);
+router
+  .route("/image")
+  .post(upload.single("image"), errorCatcher(uploadController.uploadImage));
 
 export default router;

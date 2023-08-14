@@ -21,6 +21,10 @@
                     "items": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "1asdhqwetqwyut123123asazxa"
+                        },
                         "first_name": {
                           "type": "string",
                           "example": "test1FirstName"
@@ -33,9 +37,9 @@
                           "type": "string",
                           "example": "test1@gmail.com"
                         },
-                        "password": {
+                        "ROLE": {
                           "type": "string",
-                          "example": "12345a"
+                          "example": "WRITER"
                         }
                       }
                     }
@@ -148,7 +152,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         },
         {
           "in": "path",
@@ -174,6 +178,10 @@
                   "data": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "1asdhqwetqwyut123123asazxa"
+                      },
                       "first_name": {
                         "type": "string",
                         "example": "test1FirstName"
@@ -186,9 +194,9 @@
                         "type": "string",
                         "example": "test1@gmail.com"
                       },
-                      "password": {
+                      "ROLE": {
                         "type": "string",
-                        "example": "12345a"
+                        "example": "WRITER"
                       }
                     }
                   }
@@ -277,6 +285,94 @@
                   "message": {
                     "type": "string",
                     "example": "User to delete not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "patch": {
+      "tags": ["User"],
+      "summary": "Update a user",
+      "description": "Update a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to update the user"
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string",
+                  "example": "test1FirstName"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "test1LastName"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "test1@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345a"
+                },
+                "role": {
+                  "type": "string",
+                  "example": "AUTHOR"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Successfully updated the user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User to update not found"
                   }
                 }
               }
@@ -387,7 +483,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "Blogs listed"
@@ -439,6 +534,27 @@
                         "authorId": {
                           "type": "int",
                           "example": 1
+                        },
+                        "author": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "1"
+                            },
+                            "first_name": {
+                              "type": "string",
+                              "example": "test1FirstName"
+                            },
+                            "last_name": {
+                              "type": "string",
+                              "example": "test1LastName"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "test1@gmail.com"
+                            }
+                          }
                         },
                         "tags": {
                           "type": "array",
@@ -599,7 +715,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "Blog retrieved successfully"
@@ -678,7 +793,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "Blog not found"
@@ -871,7 +985,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 200,
                   "message": {
                     "type": "string",
                     "example": "the blog deleted successfully"
@@ -887,7 +1000,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 403,
                   "message": {
                     "type": "string",
                     "example": "cannot delete a blog you dont own"
@@ -903,10 +1015,153 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "status": 404,
                   "message": {
                     "type": "string",
                     "example": "the blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/blogs/author/{id}": {
+    "get": {
+      "tags": ["Blog"],
+      "summary": "Get a specific blog by ID",
+      "description": "Get a specific blog by ID",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog author"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog listed by author id successfully"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "int",
+                        "example": 1
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "the blog title"
+                      },
+                      "sections": {
+                        "type": "array",
+                        "items": {
+                          "properties": {
+                            "id": {
+                              "type": "int",
+                              "example": 1
+                            },
+                            "title": {
+                              "type": "string",
+                              "example": "the blog sub-title"
+                            },
+                            "content": {
+                              "type": "string",
+                              "example": "the blog sub-content"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "/public/image-1.jpg"
+                            }
+                          }
+                        }
+                      },
+                      "image": {
+                        "type": "string",
+                        "example": "/public/image.jpg"
+                      },
+                      "published": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "authorId": {
+                        "type": "string",
+                        "example": "1"
+                      },
+                      "author": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1"
+                          },
+                          "first_name": {
+                            "type": "string",
+                            "example": "test1FirstName"
+                          },
+                          "last_name": {
+                            "type": "string",
+                            "example": "test1LastName"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "test1@gmail.com"
+                          }
+                        }
+                      },
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "example": "tag-1"
+                        }
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog not found"
                   }
                 }
               }
@@ -1085,50 +1340,9 @@
       }
     }
   },
-  "/upload/image": {
-    "post": {
-      "tags": ["Upload"],
-      "summary": "Upload an image",
-      "description": "Upload an image",
-      "requestBody": {
-        "required": true,
-        "content": {
-          "multipart/form-data": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "image": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      },
-      "responses": {
-        "200": {
-          "description": "Image uploaded successfully",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "Image uploaded successfully"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
   "/comments": {
     "get": {
-      "tags": ["Blog"],
+      "tags": ["Comment"],
       "summary": "Lists comments",
       "description": "Lists comments",
       "responses": {
@@ -1183,7 +1397,7 @@
       }
     },
     "post": {
-      "tags": ["Blog"],
+      "tags": ["Comment"],
       "summary": "Comments a blog",
       "description": "Comments a blog",
       "parameters": [
@@ -1193,7 +1407,7 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
         }
       ],
       "requestBody": {
@@ -1222,6 +1436,7 @@
       },
       "responses": {
         "200": {
+          "description": "Successful response",
           "content": {
             "application/json": {
               "schema": {
@@ -1229,7 +1444,36 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "commented successfully"
+                    "example": "comments listed"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "blogId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "the comment content"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      }
+                    }
                   }
                 }
               }
@@ -1244,7 +1488,96 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "example": "comment not found"
+                    "example": "blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/comments/{id}": {
+    "get": {
+      "tags": ["Comment"],
+      "summary": "Get a specific blog by ID",
+      "description": "Get a specific blog by ID",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the blog to get"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog is listed"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": 1
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "the user id"
+                      },
+                      "content": {
+                        "type": "string",
+                        "example": "the content of comment"
+                      },
+                      "blogId": {
+                        "type": "string",
+                        "example": "the blog id"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2023-07-17T11:50:18.186Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Blog not found"
                   }
                 }
               }
@@ -1254,7 +1587,7 @@
       }
     },
     "delete": {
-      "tags": ["Blog"],
+      "tags": ["Comment"],
       "summary": "Deletes a comment",
       "description": "Deletes a comment",
       "parameters": [
@@ -1264,25 +1597,18 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the comment to delete"
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "commentId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -1317,10 +1643,153 @@
       }
     }
   },
-  "/follow": {},
-  "/follow/{followingId}": {
+  "/follows/followers/{id}": {
+    "get": {
+      "tags": ["Follow"],
+      "summary": "Get followers of a user",
+      "description": "Get followers of a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to get followers"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Followers listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/follows/followings/{id}": {
+    "get": {
+      "tags": ["Follow"],
+      "summary": "Get followings of a user",
+      "description": "Get followings of a user",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "schema": {
+            "type": "string",
+            "format": "jwt"
+          },
+          "required": false,
+          "description": "JWT Bearer token for authentication"
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to get followings"
+        }
+      ],
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Followings listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/follows/{id}": {
     "post": {
-      "tags": ["User"],
+      "tags": ["Follow"],
       "summary": "Follows a user",
       "description": "Follows a user",
       "parameters": [
@@ -1330,25 +1799,18 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to follow"
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -1413,7 +1875,7 @@
       }
     },
     "delete": {
-      "tags": ["User"],
+      "tags": ["Follow"],
       "summary": "Unfollows a user",
       "description": "Unfollows a user",
       "parameters": [
@@ -1423,25 +1885,18 @@
           "schema": {
             "format": "jwt"
           },
-          "required": true
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to unfollow"
         }
       ],
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "string",
-                  "example": "123456789abcdefghij01234"
-                }
-              }
-            }
-          }
-        }
-      },
       "responses": {
         "200": {
           "content": {
@@ -1497,6 +1952,47 @@
                   "message": {
                     "type": "string",
                     "example": "you may not unfollow yourself"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/upload/image": {
+    "post": {
+      "tags": ["Upload"],
+      "summary": "Upload an image",
+      "description": "Upload an image",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Image uploaded successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "Image uploaded successfully"
                   }
                 }
               }

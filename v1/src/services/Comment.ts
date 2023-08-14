@@ -11,6 +11,15 @@ class CommentService {
   async list(where?: Prisma.CommentWhereInput): Promise<Comment[]> {
     return await this.prisma.comment.findMany({
       where: where,
+      include:{
+        user:{
+          select:{
+            id:true,
+            first_name:true,
+            last_name:true
+          }
+        }
+      }
     });
   }
 
@@ -24,6 +33,15 @@ class CommentService {
     return await this.prisma.comment.create({
       data: comment,
     });
+  }
+
+  async update(
+    where:Prisma.CommentWhereUniqueInput,
+    data:Prisma.CommentUpdateInput
+    ):Promise<Comment>{
+    return await this.prisma.comment.update({
+      where:where,data:data
+    })
   }
 
   async delete(where: Prisma.CommentWhereUniqueInput): Promise<void> {
