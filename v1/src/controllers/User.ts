@@ -36,6 +36,17 @@ class UsersController {
     });
   }
 
+  async getUserDetails(req:Request,res:Response){
+    const {id} = req.params
+    const user = await userService.getUserDetails({id})
+    if(!user) throw new CustomError(404,Messages.UserNotFound)
+    res.status(httpStatus.OK).send({
+      status:httpStatus.OK,
+      message:"User Found",
+      data:UsersController.exclude(user,"password")
+    })
+  }
+
   async add(req: Request, res: Response, next: NextFunction) {
     const { email } = req.body;
     const userCheck = await userService.get({ email });

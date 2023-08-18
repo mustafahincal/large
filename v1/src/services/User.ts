@@ -15,6 +15,17 @@ class UserService {
     return await this.prisma.user.findUnique({ where: where });
   }
 
+  async getUserDetails(where:Prisma.UserWhereUniqueInput):Promise<User| null>{
+    return await this.prisma.user.findUnique({
+      where:where,
+      include:{
+        followedBy:true,
+        blogs:true,
+        following:true
+      }
+    })
+  }
+
   async create(user: Prisma.UserCreateInput): Promise<User> {
     user.password = hashPassword(user.password);
     const created = await this.prisma.user.create({

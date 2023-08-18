@@ -17,4 +17,6 @@ router
   .patch(errorCatcher(usersController.patch))
   .delete(errorCatcher(usersController.remove));
 
+router.get("/details/:id",errorCatcher(usersController.getUserDetails))
+
 export default router;
