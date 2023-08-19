@@ -37,33 +37,12 @@ class BlogService {
       where: where,
       include: {
         sections: true,
-        comments: {
-          select: {
-            id: true,
-            user: {
-              select: {
-                id: true,
-                first_name: true,
-                last_name: true,
-              },
-            },
-            content: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
         author: {
           select: {
             id: true,
             first_name: true,
             last_name: true,
             email: true,
-          },
-        },
-        likes: {
-          select: {
-            userId: true,
-            // user: true,
           },
         },
       },

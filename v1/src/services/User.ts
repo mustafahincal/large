@@ -20,7 +20,17 @@ class UserService {
       where:where,
       include:{
         followedBy:true,
-        blogs:true,
+        blogs:{
+          include:{
+            author:{
+              select:{
+                id:true,
+                first_name:true,
+                last_name:true
+              }
+            }
+          }
+        },
         following:true
       }
     })
