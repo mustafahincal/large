@@ -6,7 +6,7 @@ import { errorCatcher } from "../utils/errorCatcher";
 router.route("/").get(errorCatcher(likeController.index));
 router
   .route("/:blogId&:userId")
-  .get(errorCatcher(likeController.like))
+  .post(errorCatcher(likeController.like))
   .delete(errorCatcher(likeController.unlike));
 
 router.route("/blog/:blogId").get(errorCatcher(likeController.getByBlog));
