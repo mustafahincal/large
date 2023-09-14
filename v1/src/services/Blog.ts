@@ -13,7 +13,6 @@ class BlogService {
       where: where,
       include: {
         sections: true,
-        comments: true,
         author: {
           select: {
             id: true,
@@ -45,6 +44,12 @@ class BlogService {
             email: true,
           },
         },
+        likes: {
+          select: {
+            userId: true,
+            // user: true,
+          },
+        }
       },
     });
   }
