@@ -1,7 +1,7 @@
 import { Blog } from "@prisma/client";
 import express from "express";
 const router = express.Router();
-import blogsController from "../controllers/Blog";
+import blogsController from "../controllers/Blogs";
 import { errorCatcher } from "../utils/errorCatcher";
 
 router

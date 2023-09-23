@@ -1,5 +1,5 @@
 import express from "express";
-import usersController from "../controllers/User";
+import usersController from "../controllers/Users";
 import userValidation from "../validations/user.validation";
 import validator from "../middlewares/validator.milddleware";
 import { errorCatcher } from "../utils/errorCatcher";
@@ -17,6 +17,6 @@ router
   .patch(errorCatcher(usersController.patch))
   .delete(errorCatcher(usersController.remove));
 
-router.get("/details/:id",errorCatcher(usersController.getUserDetails))
+router.get("/details/:id", errorCatcher(usersController.getUserDetails));
 
 export default router;
