@@ -1,9 +1,7 @@
 {
   "/users": {
     "get": {
-      "tags": [
-        "User"
-      ],
+      "tags": ["User"],
       "summary": "Lists users",
       "description": "Lists users",
       "responses": {
@@ -54,9 +52,7 @@
       }
     },
     "post": {
-      "tags": [
-        "User"
-      ],
+      "tags": ["User"],
       "summary": "Creates a new user",
       "description": "Creates a new user",
       "requestBody": {
@@ -146,9 +142,7 @@
   },
   "/users/{id}": {
     "get": {
-      "tags": [
-        "User"
-      ],
+      "tags": ["User"],
       "summary": "get information about a spesific user by id",
       "description": "get information about a spesific user by id",
       "parameters": [
@@ -229,9 +223,7 @@
       }
     },
     "delete": {
-      "tags": [
-        "User"
-      ],
+      "tags": ["User"],
       "summary": "Delete a user",
       "description": "Delete a user",
       "parameters": [
@@ -302,9 +294,7 @@
       }
     },
     "patch": {
-      "tags": [
-        "User"
-      ],
+      "tags": ["User"],
       "summary": "Update a user",
       "description": "Update a user",
       "parameters": [
@@ -394,9 +384,7 @@
   },
   "/auth": {
     "post": {
-      "tags": [
-        "Authentication"
-      ],
+      "tags": ["Authentication"],
       "summary": "Logins to the system",
       "description": "Logins to the system",
       "requestBody": {
@@ -474,9 +462,7 @@
   },
   "/blogs": {
     "get": {
-      "tags": [
-        "Blog"
-      ],
+      "tags": ["Blog"],
       "summary": "Lists blogs",
       "description": "Lists blogs",
       "parameters": [
@@ -596,9 +582,7 @@
       }
     },
     "post": {
-      "tags": [
-        "Blog"
-      ],
+      "tags": ["Blog"],
       "summary": "Creates a new blog for the user",
       "description": "Creates a new blog for the user",
       "parameters": [
@@ -700,9 +684,7 @@
   },
   "/blogs/{id}": {
     "get": {
-      "tags": [
-        "Blog"
-      ],
+      "tags": ["Blog"],
       "summary": "Get a specific blog by ID",
       "description": "Get a specific blog by ID",
       "parameters": [
@@ -823,9 +805,7 @@
       }
     },
     "put": {
-      "tags": [
-        "Blog"
-      ],
+      "tags": ["Blog"],
       "summary": "Update a blog",
       "description": "Update a blog",
       "parameters": [
@@ -976,9 +956,7 @@
       }
     },
     "delete": {
-      "tags": [
-        "Blog"
-      ],
+      "tags": ["Blog"],
       "summary": "Deletes a blog",
       "description": "Deletes a blog",
       "parameters": [
@@ -1051,9 +1029,7 @@
   },
   "/blogs/author/{id}": {
     "get": {
-      "tags": [
-        "Blog"
-      ],
+      "tags": ["Blog"],
       "summary": "Get a specific blog by ID",
       "description": "Get a specific blog by ID",
       "parameters": [
@@ -1197,9 +1173,7 @@
   },
   "/likes": {
     "get": {
-      "tags": [
-        "Likes"
-      ],
+      "tags": ["Likes"],
       "summary": "Lists likes",
       "description": "Lists likes",
       "responses": {
@@ -1247,10 +1221,8 @@
     }
   },
   "/likes/{blogId}&{userId}": {
-    "get": {
-      "tags": [
-        "Likes"
-      ],
+    "post": {
+      "tags": ["Likes"],
       "summary": "Get a specific blog by following and follower ID",
       "description": "Get a specific blog by following and follower ID",
       "parameters": [
@@ -1307,9 +1279,7 @@
       }
     },
     "delete": {
-      "tags": [
-        "Likes"
-      ],
+      "tags": ["Likes"],
       "summary": "Unlike a blog",
       "description": "Unlike a blog by removing the like of a specific user (follower)",
       "parameters": [
@@ -1372,9 +1342,7 @@
   },
   "/comments": {
     "get": {
-      "tags": [
-        "Comment"
-      ],
+      "tags": ["Comment"],
       "summary": "Lists comments",
       "description": "Lists comments",
       "responses": {
@@ -1429,9 +1397,7 @@
       }
     },
     "post": {
-      "tags": [
-        "Comment"
-      ],
+      "tags": ["Comment"],
       "summary": "Comments a blog",
       "description": "Comments a blog",
       "parameters": [
@@ -1534,9 +1500,7 @@
   },
   "/comments/{id}": {
     "get": {
-      "tags": [
-        "Comment"
-      ],
+      "tags": ["Comment"],
       "summary": "Get a specific blog by ID",
       "description": "Get a specific blog by ID",
       "parameters": [
@@ -1623,9 +1587,7 @@
       }
     },
     "delete": {
-      "tags": [
-        "Comment"
-      ],
+      "tags": ["Comment"],
       "summary": "Deletes a comment",
       "description": "Deletes a comment",
       "parameters": [
@@ -1683,9 +1645,7 @@
   },
   "/comments/blog/{id}": {
     "get": {
-      "tags": [
-        "Comment"
-      ],
+      "tags": ["Comment"],
       "summary": "Get a specific comment by blog ID",
       "description": "Get a specific blog by ID",
       "parameters": [
@@ -1772,9 +1732,7 @@
       }
     },
     "delete": {
-      "tags": [
-        "Comment"
-      ],
+      "tags": ["Comment"],
       "summary": "Deletes a comment",
       "description": "Deletes a comment",
       "parameters": [
@@ -1832,9 +1790,7 @@
   },
   "/follows/followers/{id}": {
     "get": {
-      "tags": [
-        "Follow"
-      ],
+      "tags": ["Follow"],
       "summary": "Get followers of a user",
       "description": "Get followers of a user",
       "parameters": [
@@ -1906,9 +1862,7 @@
   },
   "/follows/followings/{id}": {
     "get": {
-      "tags": [
-        "Follow"
-      ],
+      "tags": ["Follow"],
       "summary": "Get followings of a user",
       "description": "Get followings of a user",
       "parameters": [
@@ -1980,9 +1934,7 @@
   },
   "/follows/{id}": {
     "post": {
-      "tags": [
-        "Follow"
-      ],
+      "tags": ["Follow"],
       "summary": "Follows a user",
       "description": "Follows a user",
       "parameters": [
@@ -2068,9 +2020,7 @@
       }
     },
     "delete": {
-      "tags": [
-        "Follow"
-      ],
+      "tags": ["Follow"],
       "summary": "Unfollows a user",
       "description": "Unfollows a user",
       "parameters": [
@@ -2158,9 +2108,7 @@
   },
   "/upload/image": {
     "post": {
-      "tags": [
-        "Upload"
-      ],
+      "tags": ["Upload"],
       "summary": "Upload an image",
       "description": "Upload an image",
       "requestBody": {
