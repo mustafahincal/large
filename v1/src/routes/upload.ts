@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const file_type = file.mimetype.split("/");
     const type = file_type[file_type.length - 1];
-    cb(null, `${uniqueSuffix}.${type}`);
+    cb(null, `${uniqueSuffix}.${"png"}`);
   },
 });
 
