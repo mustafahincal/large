@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from "express";
-import followService from "../services/Follow";
-import userService from "../services/User";
-import httpStatus from "http-status";
-import Messages from "../constants/Messages";
-import { CustomError } from "../utils/customError";
-import { JwtUserPayload } from "interfaces/auth";
+import { NextFunction, Request, Response } from 'express';
+import followService from '../services/Follow';
+import userService from '../services/User';
+import httpStatus from 'http-status';
+import Messages from '../constants/Messages';
+import { CustomError } from '../utils/customError';
+import { JwtUserPayload } from 'interfaces/auth';
 
 class FollowsControler {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -53,6 +53,20 @@ class FollowsControler {
     }; */
 
     const { id } = req.params;
+
+    const existingFollow = await followService.get({
+      followerId_followingId: {
+        followerId: req.user.id,
+        followingId: id,
+      },
+    });
+
+    if (existingFollow) {
+      return res.status(httpStatus.BAD_REQUEST).send({
+        message: Messages.AlreadyFollowing,
+      });
+    }
+
     const follow = await followService.create({
       follower: { connect: { id: req.user.id } },
       following: { connect: { id: id } },
