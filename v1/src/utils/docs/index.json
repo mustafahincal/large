@@ -2106,6 +2106,287 @@
       }
     }
   },
+  "/saved": {
+    "get": {
+      "tags": ["Saved"],
+      "summary": "Lists saved",
+      "description": "Lists saved",
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "saved listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "1231231736136172381"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "1231231736136172381"
+                        },
+                        "blogId": {
+                          "type": "string",
+                          "example": "1231231736136172381"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/saved/save": {
+    "post": {
+      "tags": ["Saved"],
+      "summary": "Saves a blog",
+      "description": "Saves a blog",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": false
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "blogId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "blog saved"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "blogId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Saved"],
+      "summary": "delete Saves a blog",
+      "description": "delete Saves a blog",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": false
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "blogId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "123456789abcdefghij01234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "blog unsaved"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      },
+                      "blogId": {
+                        "type": "string",
+                        "example": "123456789abcdefghij01234"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "blog not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/saved/{userId}": {
+    "get": {
+      "tags": ["Saved"],
+      "summary": "get single saved blog",
+      "description": "get single saved blog",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Bearer {token}",
+          "schema": {
+            "format": "jwt"
+          },
+          "required": false
+        },
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID of the user to list saved blogs"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successful response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "example": "saved listed"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "1231231736136172381"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "1231231736136172381"
+                        },
+                        "blogId": {
+                          "type": "string",
+                          "example": "1231231736136172381"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "/upload/image": {
     "post": {
       "tags": ["Upload"],

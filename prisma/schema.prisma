@@ -24,6 +24,7 @@ model Blog {
   tags String[]
   likes    Like[]
   comments Comment[]
+  savedBlogs Saved[]
 }
 
 enum Type{
@@ -59,8 +60,17 @@ model User {
   blogs         Blog[]
   likes         Like[]
   comments      Comment[]
+  savedBlogs    Saved[]
   followedBy    Follow[]  @relation("following")
   following     Follow[]  @relation("follower")
+}
+
+model Saved {
+  id        String      @id @default(uuid()) @db.VarChar(36)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  blog      Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId    String
 }
 
 
