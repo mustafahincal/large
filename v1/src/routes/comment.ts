@@ -14,6 +14,4 @@ router
   .patch(errorCatcher(commentsController.patch));
 router.route('/blog/:blogId').get(errorCatcher(commentsController.getByBlog));
 
-// deneme degisiklik
-
 export default router;
