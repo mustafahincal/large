@@ -1,5 +1,5 @@
-import httpStatus from "http-status";
-import { PrismaClient, Blog, Prisma } from "@prisma/client";
+import httpStatus from 'http-status';
+import { PrismaClient, Blog, Prisma } from '@prisma/client';
 
 class BlogService {
   private prisma: PrismaClient;
@@ -13,6 +13,7 @@ class BlogService {
       where: where,
       include: {
         sections: true,
+        // savedBlogs: true,
         author: {
           select: {
             id: true,
@@ -36,6 +37,7 @@ class BlogService {
       where: where,
       include: {
         sections: true,
+        // savedBlogs: true,
         author: {
           select: {
             id: true,
@@ -49,7 +51,7 @@ class BlogService {
             userId: true,
             // user: true,
           },
-        }
+        },
       },
     });
   }
